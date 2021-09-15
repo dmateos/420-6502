@@ -6,8 +6,8 @@ void clock_cycle() {
         digitalWrite(LED_BUILTIN, HIGH);
         digitalWrite(CLOCKPIN, HIGH);
         delay(CLOCKSPEED/2);
-        digitalWrite(CLOCKPIN, LOW);
         digitalWrite(LED_BUILTIN, LOW);
+        digitalWrite(CLOCKPIN, LOW);
         delay(CLOCKSPEED/2);
 }
 

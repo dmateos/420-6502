@@ -12,15 +12,15 @@ void clock_cycle() {
 }
 
 void init_cpu() {
+	// Reset the CPU
         digitalWrite(RESETPIN, LOW);
 	clock_cycle();
 	clock_cycle();
         digitalWrite(RESETPIN, HIGH);
-
-        delay(100);
 }
 
 void setup() {
+	// Setup initial state
         pinMode(RESETPIN, OUTPUT);
         pinMode(CLOCKPIN, OUTPUT);
         pinMode(LED_BUILTIN, OUTPUT);
@@ -28,7 +28,6 @@ void setup() {
         digitalWrite(LED_BUILTIN, LOW);
         digitalWrite(RESETPIN, HIGH);
         digitalWrite(CLOCKPIN, LOW);
-        delay(1000);
 
 	init_cpu();
 }

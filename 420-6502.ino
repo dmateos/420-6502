@@ -64,6 +64,7 @@ void init_cpu() {
     clock_cycle();
     clock_cycle();
     digitalWrite(RESETPIN, HIGH);
+    Serial.println("CPU Reset");
 }
 
 void setup() {

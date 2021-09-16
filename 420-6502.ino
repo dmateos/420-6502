@@ -34,9 +34,6 @@ enum data_pins {
     DATAPIN_7,
 };
 
-// Keep track of current clock state
-static unsigned char clock_state = LOW;
-
 
 void print_short(unsigned short d) {
     char msg[32];
@@ -45,16 +42,12 @@ void print_short(unsigned short d) {
 }
 
 void clock_cycle() {
-    if(clock_state == LOW) {
       digitalWrite(LED_BUILTIN, HIGH);
       digitalWrite(CLOCKPIN, HIGH);
-      clock_state = HIGH;
-    } else if(clock_state == HIGH) {
+      delay(CLOCKSPEED/2);
       digitalWrite(LED_BUILTIN, LOW);
       digitalWrite(CLOCKPIN, LOW);
-      clock_state = LOW;
-    }
-    delay(CLOCKSPEED);
+      delay(CLOCKSPEED/2);
 }
 
 unsigned short read_address_pins() {

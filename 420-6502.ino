@@ -83,8 +83,15 @@ void setup() {
     init_cpu();
 }
 
+void print_short(unsigned short d) {
+    char msg[32];
+    snprintf(msg, 32, "0x%x (%d)\n", d, d);
+    Serial.print(msg);
+}
+
 void loop() {
     clock_cycle();
     unsigned short addr_data = read_address_pins();
-    Serial.println(addr_data, HEX);
+    print_short(addr_data);
 }
+

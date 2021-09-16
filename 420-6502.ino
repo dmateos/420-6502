@@ -38,22 +38,21 @@ enum data_pins {
     DATAPIN_7,
 };
 
-
 void print_short(unsigned short d) {
     char msg[32];
     snprintf(msg, 32, "%#06x (%hu)\r\n", d, d);
-    #ifdef SERIAL
+#ifdef SERIAL
     Serial.print(msg);
-    #endif
+#endif
 }
 
 void clock_cycle() {
-      digitalWrite(LED_BUILTIN, HIGH);
-      digitalWrite(CLOCKPIN, HIGH);
-      delay(CLOCKSPEED/2);
-      digitalWrite(LED_BUILTIN, LOW);
-      digitalWrite(CLOCKPIN, LOW);
-      delay(CLOCKSPEED/2);
+    digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(CLOCKPIN, HIGH);
+    delay(CLOCKSPEED / 2);
+    digitalWrite(LED_BUILTIN, LOW);
+    digitalWrite(CLOCKPIN, LOW);
+    delay(CLOCKSPEED / 2);
 }
 
 unsigned short read_address_pins() {
@@ -80,20 +79,20 @@ void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
 
     for (int i = 0; i < 16; i++) {
-      pinMode(ADDRESSPIN_0 + i, INPUT);
+        pinMode(ADDRESSPIN_0 + i, INPUT);
     }
 
     digitalWrite(LED_BUILTIN, LOW);
     digitalWrite(RESETPIN, HIGH);
     digitalWrite(CLOCKPIN, LOW);
 
-    #ifdef SERIAL
+#ifdef SERIAL
     // Setup serial connection back to computer
     Serial.begin(115200);
     while (!Serial) {
         continue;
     }
-    #endif
+#endif
 
     init_cpu();
 }
@@ -101,9 +100,8 @@ void setup() {
 void loop() {
     clock_cycle();
 
-    #ifdef SERIAL
+#ifdef SERIAL
     unsigned short addr_data = read_address_pins();
     print_short(addr_data);
-    #endif
+#endif
 }
-

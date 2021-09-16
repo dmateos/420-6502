@@ -46,10 +46,12 @@ void clock_cycle() {
     delay(CLOCKSPEED / 2);
 }
 
-void read_address_pins(unsigned char *adio) {
+unsigned short *read_address_pins() {
+    unsigned short data;
     for (int i = 0; i < 16; i++) {
-        adio[i] = digitalRead(ADDRESSPIN_0 + i);
+        data <<= digitalRead(ADDRESSPIN_0 + i) & 1;
     }
+    return data;
 }
 
 void init_cpu() {
@@ -80,10 +82,8 @@ void setup() {
 }
 
 void loop() {
-    unsigned char adio[16];
-
     clock_cycle();
-    read_address_pins(adio);
+    unsigned short addr_data = read_address_pins();
 
-    serial.write("clock tick");
+    serial.write(addr_data);
 }

@@ -69,6 +69,10 @@ void setup() {
     pinMode(CLOCKPIN, OUTPUT);
     pinMode(LED_BUILTIN, OUTPUT);
 
+    for (int i = 0; i < 16; i++) {
+      pinMode(ADDRESSPIN_0 + i, INPUT);
+    }
+
     digitalWrite(LED_BUILTIN, LOW);
     digitalWrite(RESETPIN, HIGH);
     digitalWrite(CLOCKPIN, LOW);

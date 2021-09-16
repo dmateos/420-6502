@@ -46,7 +46,7 @@ void clock_cycle() {
     delay(CLOCKSPEED / 2);
 }
 
-unsigned short *read_address_pins() {
+unsigned short read_address_pins() {
     unsigned short data;
     for (int i = 0; i < 16; i++) {
         data <<= digitalRead(ADDRESSPIN_0 + i) & 1;

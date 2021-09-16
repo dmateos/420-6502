@@ -4,19 +4,8 @@
 #define CLOCKPIN 4
 #define CLOCKSPEED 50
 
-enum data_pins {
-    DATAPIN_0 = 12,
-    DATAPIN_1,
-    DATAPIN_2,
-    DATAPIN_3,
-    DATAPIN_4,
-    DATAPIN_5,
-    DATAPIN_6,
-    DATAPIN_7,
-};
-
 enum address_pins {
-    ADDRESSPIN_0 = 24,
+    ADDRESSPIN_0 = 22,
     ADDRESSPIN_1,
     ADDRESSPIN_2,
     ADDRESSPIN_3,
@@ -32,6 +21,17 @@ enum address_pins {
     ADDRESSPIN_13,
     ADDRESSPIN_14,
     ADDRESSPIN_15,
+};
+
+enum data_pins {
+    DATAPIN_0 = 40,
+    DATAPIN_1,
+    DATAPIN_2,
+    DATAPIN_3,
+    DATAPIN_4,
+    DATAPIN_5,
+    DATAPIN_6,
+    DATAPIN_7,
 };
 
 void clock_cycle() {

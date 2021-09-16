@@ -35,7 +35,8 @@ enum address_pins {
 };
 
 // Serial connection to relay stuff back to computer over USB
-SoftwareSerial serial(2, 3);
+// Mega is 0,1 for USB
+SoftwareSerial serial(0, 1);
 
 void clock_cycle() {
     digitalWrite(LED_BUILTIN, HIGH);

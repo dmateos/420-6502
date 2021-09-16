@@ -34,10 +34,6 @@ enum address_pins {
     ADDRESSPIN_15,
 };
 
-// Serial connection to relay stuff back to computer over USB
-// Mega is 0,1 for USB
-SoftwareSerial serial(0, 1);
-
 void clock_cycle() {
     digitalWrite(LED_BUILTIN, HIGH);
     digitalWrite(CLOCKPIN, HIGH);
@@ -79,7 +75,7 @@ void setup() {
     digitalWrite(CLOCKPIN, LOW);
 
     // Setup serial connection back to computer
-    Serial.begin(9600);
+    Serial.begin(115200);
     while (!Serial) {
         continue;
     }
@@ -90,6 +86,5 @@ void setup() {
 void loop() {
     clock_cycle();
     unsigned short addr_data = read_address_pins();
-
-    serial.write(addr_data);
+    Serial.println(addr_data, HEX);
 }

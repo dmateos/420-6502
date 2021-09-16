@@ -1,8 +1,12 @@
+#define CLOCKSPEED 100
+#define SERIAL
+
+#ifdef SERIAL
 #include <SoftwareSerial.h>
+#endif
 
 #define RESETPIN 3
 #define CLOCKPIN 4
-#define CLOCKSPEED 100
 
 enum address_pins {
     ADDRESSPIN_0 = 22,
@@ -38,7 +42,9 @@ enum data_pins {
 void print_short(unsigned short d) {
     char msg[32];
     snprintf(msg, 32, "%#06x (%hu)\r\n", d, d);
+    #ifdef SERIAL
     Serial.print(msg);
+    #endif
 }
 
 void clock_cycle() {
@@ -81,18 +87,23 @@ void setup() {
     digitalWrite(RESETPIN, HIGH);
     digitalWrite(CLOCKPIN, LOW);
 
+    #ifdef SERIAL
     // Setup serial connection back to computer
     Serial.begin(115200);
     while (!Serial) {
         continue;
     }
+    #endif
 
     init_cpu();
 }
 
 void loop() {
     clock_cycle();
+
+    #ifdef SERIAL
     unsigned short addr_data = read_address_pins();
     print_short(addr_data);
+    #endif
 }
 

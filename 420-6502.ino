@@ -34,6 +34,12 @@ enum data_pins {
     DATAPIN_7,
 };
 
+void print_short(unsigned short d) {
+    char msg[32];
+    snprintf(msg, 32, "%#06x (%hu)\r\n", d, d);
+    Serial.print(msg);
+}
+
 void clock_cycle() {
     digitalWrite(LED_BUILTIN, HIGH);
     digitalWrite(CLOCKPIN, HIGH);
@@ -81,12 +87,6 @@ void setup() {
     }
 
     init_cpu();
-}
-
-void print_short(unsigned short d) {
-    char msg[32];
-    snprintf(msg, 32, "0x%x (%d)\n", d, d);
-    Serial.print(msg);
 }
 
 void loop() {

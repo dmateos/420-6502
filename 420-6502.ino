@@ -47,7 +47,7 @@ void clock_cycle() {
 }
 
 void read_address_pins(unsigned char *adio) {
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 16; i++) {
         adio[i] = digitalRead(ADDRESSPIN_0 + i);
     }
 }
@@ -80,7 +80,7 @@ void setup() {
 }
 
 void loop() {
-    unsigned char adio[8];
+    unsigned char adio[16];
 
     clock_cycle();
     read_address_pins(adio);

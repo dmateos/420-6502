@@ -2,7 +2,7 @@
 
 #define RESETPIN 3
 #define CLOCKPIN 4
-#define CLOCKSPEED 50
+#define CLOCKSPEED 100
 
 enum address_pins {
     ADDRESSPIN_0 = 22,
@@ -34,6 +34,10 @@ enum data_pins {
     DATAPIN_7,
 };
 
+// Keep track of current clock state
+static unsigned char clock_state = LOW;
+
+
 void print_short(unsigned short d) {
     char msg[32];
     snprintf(msg, 32, "%#06x (%hu)\r\n", d, d);
@@ -41,12 +45,16 @@ void print_short(unsigned short d) {
 }
 
 void clock_cycle() {
-    digitalWrite(LED_BUILTIN, HIGH);
-    digitalWrite(CLOCKPIN, HIGH);
-    delay(CLOCKSPEED / 2);
-    digitalWrite(LED_BUILTIN, LOW);
-    digitalWrite(CLOCKPIN, LOW);
-    delay(CLOCKSPEED / 2);
+    if(clock_state == LOW) {
+      digitalWrite(LED_BUILTIN, HIGH);
+      digitalWrite(CLOCKPIN, HIGH);
+      clock_state = HIGH;
+    } else if(clock_state == HIGH) {
+      digitalWrite(LED_BUILTIN, LOW);
+      digitalWrite(CLOCKPIN, LOW);
+      clock_state = LOW;
+    }
+    delay(CLOCKSPEED);
 }
 
 unsigned short read_address_pins() {

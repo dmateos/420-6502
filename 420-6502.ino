@@ -34,8 +34,8 @@ enum data_pins {
     DATAPIN_7,
 };
 
-const unsigned char program[] = {0xEA, 0xEA};
-const unsigned int program_length = 2;
+const unsigned char program[] = {0xEA};
+const unsigned int program_length = 1;
 
 void print_short(unsigned short d) {
     char msg[32];
@@ -61,11 +61,11 @@ unsigned short read_address_pins() {
     return data;
 }
 
-void write_program(unsigned char *program) {
+void write_program(unsigned char *pgrm) {
     static int pc = 0;
 
     for (int i = 0; i < 8; i++) {
-        digitalWrite(DATAPIN_0 + i, (program[pc] >> i) & 1);
+        digitalWrite(DATAPIN_0 + i, (pgrm[pc] >> i) & 1);
     }
 
     pc++;

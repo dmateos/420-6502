@@ -60,7 +60,7 @@ unsigned short read_address_pins() {
 
 void write_program(unsigned char program) {
     for (int i = 0; i < 8; i++) {
-        digitalWrite(DATAPIN_7 - i, (program >> i) & 1);
+        digitalWrite(DATAPIN_0 + i, (program >> i) & 1);
     }
 }
 

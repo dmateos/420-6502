@@ -1,6 +1,7 @@
 #include <SoftwareSerial.h>
 
 #define CLOCKSPEED 100
+#define SERIALBAUD 115200
 #define RESETPIN 3
 #define CLOCKPIN 4
 
@@ -68,8 +69,7 @@ void write_program(unsigned char *pgrm, unsigned int length) {
         digitalWrite(DATAPIN_0 + i, (pgrm[pc] >> i) & 1);
     }
 
-    pc++;
-    if (pc == length) {
+    if (++pc == length) {
         pc = 0;
     }
 }
@@ -102,7 +102,7 @@ void setup() {
     digitalWrite(CLOCKPIN, LOW);
 
     // Setup serial connection back to computer
-    Serial.begin(115200);
+    Serial.begin(SERIALBAUD);
     while (!Serial) {
         continue;
     }

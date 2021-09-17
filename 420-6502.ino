@@ -58,6 +58,12 @@ unsigned short read_address_pins() {
     return data;
 }
 
+void write_program(unsigned char program) {
+    for (int i = 0; i < 8; i++) {
+        digitalWrite(DATAPIN_7 - i, (program >> i) & 1);
+    }
+}
+
 void init_cpu() {
     // Reset the CPU
     digitalWrite(RESETPIN, LOW);
@@ -77,6 +83,10 @@ void setup() {
         pinMode(ADDRESSPIN_0 + i, INPUT);
     }
 
+    for (int i = 0; i < 8; i++) {
+        pinMode(DATAPIN_0 + i, OUTPUT);
+    }
+
     digitalWrite(LED_BUILTIN, LOW);
     digitalWrite(RESETPIN, HIGH);
     digitalWrite(CLOCKPIN, LOW);
@@ -87,6 +97,7 @@ void setup() {
         continue;
     }
 
+    write_program(0xEA);
     init_cpu();
 }
 

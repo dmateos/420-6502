@@ -34,6 +34,8 @@ enum data_pins {
     DATAPIN_7,
 };
 
+const unsigned char program = 0xEA;
+
 void print_short(unsigned short d) {
     char msg[32];
     snprintf(msg, 32, "%#06x (%hu)\r\n", d, d);
@@ -97,7 +99,7 @@ void setup() {
         continue;
     }
 
-    write_program(0xEA);
+    write_program(program);
     init_cpu();
 }
 

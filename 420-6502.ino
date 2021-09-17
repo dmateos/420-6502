@@ -69,7 +69,7 @@ void write_program(unsigned char *program) {
     }
 
     pc++;
-    if (pc > program_length) {
+    if (pc == program_length) {
         pc = 0;
     }
 }
@@ -107,13 +107,13 @@ void setup() {
         continue;
     }
 
-    write_program(program);
     init_cpu();
 }
 
 void loop() {
-    clock_cycle();
     write_program(program);
+    clock_cycle();
+
     unsigned short addr_data = read_address_pins();
     print_short(addr_data);
 }

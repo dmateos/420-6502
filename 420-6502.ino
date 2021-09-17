@@ -35,6 +35,7 @@ enum data_pins {
 };
 
 const unsigned char program[] = {0xEA, 0xEA};
+const unsigned int program_length = 2;
 
 void print_short(unsigned short d) {
     char msg[32];
@@ -60,7 +61,7 @@ unsigned short read_address_pins() {
     return data;
 }
 
-void write_program(unsigned char program) {
+void write_program(unsigned char *program) {
     static int pc = 0;
 
     for (int i = 0; i < 8; i++) {
@@ -68,7 +69,7 @@ void write_program(unsigned char program) {
     }
 
     pc++;
-    if (pc > sizeof(program)) {
+    if (pc > program_length) {
         pc = 0;
     }
 }

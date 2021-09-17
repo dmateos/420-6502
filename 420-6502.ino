@@ -61,7 +61,7 @@ unsigned short read_address_pins() {
     return data;
 }
 
-void write_program(unsigned char *pgrm) {
+void write_program(unsigned char *pgrm, unsigned int length) {
     static int pc = 0;
 
     for (int i = 0; i < 8; i++) {
@@ -69,7 +69,7 @@ void write_program(unsigned char *pgrm) {
     }
 
     pc++;
-    if (pc == program_length) {
+    if (pc == length) {
         pc = 0;
     }
 }
@@ -111,7 +111,7 @@ void setup() {
 }
 
 void loop() {
-    write_program(program);
+    write_program(program, program_length);
     clock_cycle();
 
     unsigned short addr_data = read_address_pins();

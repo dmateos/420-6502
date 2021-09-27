@@ -81,14 +81,10 @@ byte read_byte() {
   return data;
 }
 
-void set_data_state(bool state) {
-  if (state == OUTPUT) {
+void set_data_state(int state) {
+  if (state == OUTPUT || state == INPUT) {
     for (int i = 0; i < 8; i++) {
-      pinMode(DATAPIN_0 + i, OUTPUT);
-    }
-  } else if (state == INPUT) {
-    for (int i = 0; i < 8; i++) {
-      pinMode(DATAPIN_0 + i, INPUT);
+      pinMode(DATAPIN_0 + i, state);
     }
   }
 }

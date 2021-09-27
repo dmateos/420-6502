@@ -35,9 +35,6 @@ enum data_pins {
     DATAPIN_7,
 };
 
-const unsigned char program[] = {0xEA};
-const unsigned int program_length = 1;
-
 void print_short(unsigned short d) {
     char msg[32];
     snprintf(msg, 32, "%#06x (%hu)\r\n", d, d);
@@ -62,16 +59,19 @@ unsigned short read_address_pins() {
     return data;
 }
 
-void write_program(unsigned char *pgrm, unsigned int length) {
-    static int pc = 0;
-
+void write_byte(byte data) {
     for (int i = 0; i < 8; i++) {
-        digitalWrite(DATAPIN_0 + i, (pgrm[pc] >> i) & 1);
+        digitalWrite(DATAPIN_0 + i, (data >> i) & 1);
     }
+}
 
-    if (++pc == length) {
-        pc = 0;
+byte read_byte() {
+    byte data;
+    for (int i = 0; i < 8; i++) {
+        byte d = digitalRead(DATAPIN_7 - i);
+        data = (data << 1) | d;
     }
+    return data;
 }
 
 void init_cpu() {
@@ -111,9 +111,25 @@ void setup() {
 }
 
 void loop() {
-    write_program(program, program_length);
     clock_cycle();
 
     unsigned short addr_data = read_address_pins();
     print_short(addr_data);
+
+  // These are the addresses the CPU first requests data from to 
+  // determine where to start execution
+  if(addr_data == 0xFFFC) {
+    write_byte(0xBE);
+  } else if(addr_data == 0xFFFD) {
+    write_byte(0xEF);
+  } else {
+    write_byte(0xEA);
+  }
+
+  // write
+  if(rw_status) {
+
+  } else {
+
+  }
 }

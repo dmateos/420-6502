@@ -58,7 +58,7 @@ void clock_cycle() {
 }
 
 unsigned short read_address_pins() {
-  unsigned short data;
+  unsigned short data = 0;
   for (int i = 0; i < 16; i++) {
     byte d = digitalRead(ADDRESSPIN_15 - i);
     data = (data << 1) | d;
@@ -73,12 +73,24 @@ void write_byte(byte data) {
 }
 
 byte read_byte() {
-  byte data;
+  byte data = 0;
   for (int i = 0; i < 8; i++) {
     byte d = digitalRead(DATAPIN_7 - i);
     data = (data << 1) | d;
   }
   return data;
+}
+
+void set_data_state(bool state) {
+  if (state == OUTPUT) {
+    for (int i = 0; i < 8; i++) {
+      pinMode(DATAPIN_0 + i, OUTPUT);
+    }
+  } else if (state == INPUT) {
+    for (int i = 0; i < 8; i++) {
+      pinMode(DATAPIN_0 + i, INPUT);
+    }
+  }
 }
 
 void init_cpu() {
@@ -99,10 +111,7 @@ void setup() {
   for (int i = 0; i < 16; i++) {
     pinMode(ADDRESSPIN_0 + i, INPUT);
   }
-
-  for (int i = 0; i < 8; i++) {
-    pinMode(DATAPIN_0 + i, OUTPUT);
-  }
+  set_data_state(OUTPUT);
 
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(RESETPIN, HIGH);

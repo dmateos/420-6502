@@ -4,6 +4,7 @@
 #define SERIALBAUD 115200
 #define RESETPIN 3
 #define CLOCKPIN 4
+#define RWPIN 5
 
 enum address_pins {
   ADDRESSPIN_0 = 22,
@@ -22,7 +23,6 @@ enum address_pins {
   ADDRESSPIN_13,
   ADDRESSPIN_14,
   ADDRESSPIN_15,
-
 };
 
 enum data_pins {
@@ -39,6 +39,12 @@ enum data_pins {
 void print_short(unsigned short d) {
   char msg[32];
   snprintf(msg, 32, "%#06x (%hu)\r\n", d, d);
+  Serial.print(msg);
+}
+
+void print_byte(byte b) {
+  char msg[32];
+  snprintf(msg, 32, "%#04x (%hhu)\r\n", b, b);
   Serial.print(msg);
 }
 
@@ -117,18 +123,21 @@ void loop() {
   unsigned short addr_data = read_address_pins();
   print_short(addr_data);
 
-  // These are the addresses the CPU first requests data from to
-  // determine where to start execution
-  if (addr_data == 0xFFFC) {
-    write_byte(0xBE);
-  } else if (addr_data == 0xFFFD) {
-    write_byte(0xEF);
+  // High is a read request from the CPU
+  if (digitalRead(RWPIN) == HIGH) {
+    Serial.println("CPU wants to read");
+    // These are the addresses the CPU first requests data from to
+    // determine where to start execution
+    if (addr_data == 0xFFFC) {
+      write_byte(0xBE);
+    } else if (addr_data == 0xFFFD) {
+      write_byte(0xEF);
+    } else {
+      write_byte(0xEA);
+    }
   } else {
-    write_byte(0xEA);
-  }
-
-  // write
-  if (rw_status) {
-  } else {
+    Serial.println("CPU wants to write");
+    byte data = read_byte();
+    print_byte(data);
   }
 }

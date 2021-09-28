@@ -125,6 +125,27 @@ void setup() {
   init_cpu();
 }
 
+void handle_write_request(unsigned short addr) {
+  byte data = read_byte();
+  print_byte(data);
+}
+
+void handle_read_request(unsigned short addr) {
+  switch (addr) {
+    // These are the addresses the CPU first requests data from to
+    // determine where to start execution
+    case 0xFFFC:
+      write_byte(0x00);
+      break;
+    case 0xFFFD:
+      write_byte(0x00);
+      break;
+    default:
+      write_byte(0xEA);
+      break;
+  }
+}
+
 void loop() {
   clock_cycle();
 
@@ -134,18 +155,9 @@ void loop() {
   // High is a read request from the CPU
   if (digitalRead(RWPIN) == HIGH) {
     Serial.println("CPU wants to read");
-    // These are the addresses the CPU first requests data from to
-    // determine where to start execution
-    if (addr_data == 0xFFFC) {
-      write_byte(0xBE);
-    } else if (addr_data == 0xFFFD) {
-      write_byte(0xEF);
-    } else {
-      write_byte(0xEA);
-    }
+    handle_read_request(addr_data);
   } else {
     Serial.println("CPU wants to write");
-    byte data = read_byte();
-    print_byte(data);
+    handle_write_request(addr_data);
   }
 }

@@ -2,6 +2,8 @@
 
 #define CLOCKSPEED 100
 #define SERIALBAUD 115200
+#define NOP 0xEA
+
 #define RESETPIN 3
 #define CLOCKPIN 4
 #define RWPIN 5
@@ -142,7 +144,7 @@ void handle_read_request(unsigned short addr) {
       write_byte(0x00);
       break;
     default:
-      write_byte(0xEA);
+      write_byte(NOP);
       Serial.println("not implemented, sending NOP");
       break;
   }

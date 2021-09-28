@@ -75,13 +75,14 @@ byte read_byte() {
 }
 
 int set_data_state(int state) {
-  if (state == OUTPUT || state == INPUT) {
-    for (int i = 0; i < 8; i++) {
-      pinMode(DATAPIN_0 + i, state);
-    }
-    return 0;
+  if (state != OUTPUT || state != INPUT) {
+    return 1;
   }
-  return 1;
+
+  for (int i = 0; i < 8; i++) {
+    pinMode(DATAPIN_0 + i, state);
+  }
+  return 0;
 }
 
 void clock_cycle() {

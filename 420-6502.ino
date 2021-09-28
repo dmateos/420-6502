@@ -123,49 +123,52 @@ void handle_read_request(unsigned short addr) {
       write_byte(0x00);
       break;
     default:
-      write_byte(program[addr]);
-      Serial.println("not implemented, sending NOP");
+      if (addr < sizeof(program)) {
+        write_byte(program[addr]);
+        Serial.println("not implemented, sending NOP");
+      } else {
+        Serial.println("CPU Requested out of bounds location");
+      }
       break;
   }
-}
 
-void setup() {
-  // Setup initial state
-  pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(RESETPIN, OUTPUT);
-  pinMode(CLOCKPIN, OUTPUT);
-  pinMode(RWPIN, INPUT);
+  void setup() {
+    // Setup initial state
+    pinMode(LED_BUILTIN, OUTPUT);
+    pinMode(RESETPIN, OUTPUT);
+    pinMode(CLOCKPIN, OUTPUT);
+    pinMode(RWPIN, INPUT);
 
-  for (int i = 0; i < 16; i++) {
-    pinMode(ADDRESSPIN_0 + i, INPUT);
+    for (int i = 0; i < 16; i++) {
+      pinMode(ADDRESSPIN_0 + i, INPUT);
+    }
+    set_data_state(OUTPUT);
+
+    digitalWrite(LED_BUILTIN, LOW);
+    digitalWrite(RESETPIN, HIGH);
+    digitalWrite(CLOCKPIN, LOW);
+
+    // Setup serial connection back to computer
+    Serial.begin(SERIALBAUD);
+    while (!Serial) {
+      continue;
+    }
+
+    init_cpu();
   }
-  set_data_state(OUTPUT);
 
-  digitalWrite(LED_BUILTIN, LOW);
-  digitalWrite(RESETPIN, HIGH);
-  digitalWrite(CLOCKPIN, LOW);
+  void loop() {
+    clock_cycle();
 
-  // Setup serial connection back to computer
-  Serial.begin(SERIALBAUD);
-  while (!Serial) {
-    continue;
+    unsigned short addr_data = read_address_pins();
+    print_short(addr_data);
+
+    // High is a read request from the CPU
+    if (digitalRead(RWPIN) == HIGH) {
+      Serial.println("CPU wants to read");
+      handle_read_request(addr_data);
+    } else {
+      Serial.println("CPU wants to write");
+      handle_write_request(addr_data);
+    }
   }
-
-  init_cpu();
-}
-
-void loop() {
-  clock_cycle();
-
-  unsigned short addr_data = read_address_pins();
-  print_short(addr_data);
-
-  // High is a read request from the CPU
-  if (digitalRead(RWPIN) == HIGH) {
-    Serial.println("CPU wants to read");
-    handle_read_request(addr_data);
-  } else {
-    Serial.println("CPU wants to write");
-    handle_write_request(addr_data);
-  }
-}

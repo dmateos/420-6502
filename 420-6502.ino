@@ -106,31 +106,6 @@ void init_cpu() {
   Serial.println("CPU Reset");
 }
 
-void setup() {
-  // Setup initial state
-  pinMode(RESETPIN, OUTPUT);
-  pinMode(CLOCKPIN, OUTPUT);
-  pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(RWPIN, INPUT);
-
-  for (int i = 0; i < 16; i++) {
-    pinMode(ADDRESSPIN_0 + i, INPUT);
-  }
-  set_data_state(OUTPUT);
-
-  digitalWrite(LED_BUILTIN, LOW);
-  digitalWrite(RESETPIN, HIGH);
-  digitalWrite(CLOCKPIN, LOW);
-
-  // Setup serial connection back to computer
-  Serial.begin(SERIALBAUD);
-  while (!Serial) {
-    continue;
-  }
-
-  init_cpu();
-}
-
 void handle_write_request(unsigned short addr) {
   byte data = read_byte();
   print_byte(data);
@@ -152,6 +127,31 @@ void handle_read_request(unsigned short addr) {
       Serial.println("not implemented, sending NOP");
       break;
   }
+}
+
+void setup() {
+  // Setup initial state
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(RESETPIN, OUTPUT);
+  pinMode(CLOCKPIN, OUTPUT);
+  pinMode(RWPIN, INPUT);
+
+  for (int i = 0; i < 16; i++) {
+    pinMode(ADDRESSPIN_0 + i, INPUT);
+  }
+  set_data_state(OUTPUT);
+
+  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(RESETPIN, HIGH);
+  digitalWrite(CLOCKPIN, LOW);
+
+  // Setup serial connection back to computer
+  Serial.begin(SERIALBAUD);
+  while (!Serial) {
+    continue;
+  }
+
+  init_cpu();
 }
 
 void loop() {

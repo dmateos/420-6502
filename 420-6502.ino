@@ -38,6 +38,7 @@ enum data_pins {
   DATAPIN_7,
 };
 
+// Our hacky pretend ROM
 const byte program[] = { NOP }
 
 void print_short(unsigned short d) {

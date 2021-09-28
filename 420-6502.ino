@@ -81,12 +81,14 @@ byte read_byte() {
   return data;
 }
 
-void set_data_state(int state) {
+int set_data_state(int state) {
   if (state == OUTPUT || state == INPUT) {
     for (int i = 0; i < 8; i++) {
       pinMode(DATAPIN_0 + i, state);
     }
+    return 0;
   }
+  return 1;
 }
 
 void init_cpu() {
@@ -103,6 +105,7 @@ void setup() {
   pinMode(RESETPIN, OUTPUT);
   pinMode(CLOCKPIN, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(RWPIN, INPUT);
 
   for (int i = 0; i < 16; i++) {
     pinMode(ADDRESSPIN_0 + i, INPUT);

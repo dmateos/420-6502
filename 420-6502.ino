@@ -38,6 +38,8 @@ enum data_pins {
   DATAPIN_7,
 };
 
+const byte program[] = { NOP }
+
 void print_short(unsigned short d) {
   char msg[32];
   snprintf(msg, 32, "%#06x (%hu)\r\n", d, d);
@@ -145,7 +147,7 @@ void handle_read_request(unsigned short addr) {
       write_byte(0x00);
       break;
     default:
-      write_byte(NOP);
+      write_byte(program[addr]);
       Serial.println("not implemented, sending NOP");
       break;
   }

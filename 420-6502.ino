@@ -131,44 +131,45 @@ void handle_read_request(unsigned short addr) {
       }
       break;
   }
+}
 
-  void setup() {
-    // Setup initial state
-    pinMode(LED_BUILTIN, OUTPUT);
-    pinMode(RESETPIN, OUTPUT);
-    pinMode(CLOCKPIN, OUTPUT);
-    pinMode(RWPIN, INPUT);
+void setup() {
+  // Setup initial state
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(RESETPIN, OUTPUT);
+  pinMode(CLOCKPIN, OUTPUT);
+  pinMode(RWPIN, INPUT);
 
-    for (int i = 0; i < 16; i++) {
-      pinMode(ADDRESSPIN_0 + i, INPUT);
-    }
-    set_data_state(OUTPUT);
+  for (int i = 0; i < 16; i++) {
+    pinMode(ADDRESSPIN_0 + i, INPUT);
+  }
+  set_data_state(OUTPUT);
 
-    digitalWrite(LED_BUILTIN, LOW);
-    digitalWrite(RESETPIN, HIGH);
-    digitalWrite(CLOCKPIN, LOW);
+  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(RESETPIN, HIGH);
+  digitalWrite(CLOCKPIN, LOW);
 
-    // Setup serial connection back to computer
-    Serial.begin(SERIALBAUD);
-    while (!Serial) {
-      continue;
-    }
-
-    init_cpu();
+  // Setup serial connection back to computer
+  Serial.begin(SERIALBAUD);
+  while (!Serial) {
+    continue;
   }
 
-  void loop() {
-    clock_cycle();
+  init_cpu();
+}
 
-    unsigned short addr_data = read_address_pins();
-    print_short(addr_data);
+void loop() {
+  clock_cycle();
 
-    // High is a read request from the CPU
-    if (digitalRead(RWPIN) == HIGH) {
-      Serial.println("CPU wants to read");
-      handle_read_request(addr_data);
-    } else {
-      Serial.println("CPU wants to write");
-      handle_write_request(addr_data);
-    }
+  unsigned short addr_data = read_address_pins();
+  print_short(addr_data);
+
+  // High is a read request from the CPU
+  if (digitalRead(RWPIN) == HIGH) {
+    Serial.println("CPU wants to read");
+    handle_read_request(addr_data);
+  } else {
+    Serial.println("CPU wants to write");
+    handle_write_request(addr_data);
   }
+}

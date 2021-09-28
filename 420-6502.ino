@@ -48,15 +48,6 @@ void print_byte(byte b) {
   Serial.print(msg);
 }
 
-void clock_cycle() {
-  digitalWrite(LED_BUILTIN, HIGH);
-  digitalWrite(CLOCKPIN, HIGH);
-  delay(CLOCKSPEED / 2);
-  digitalWrite(LED_BUILTIN, LOW);
-  digitalWrite(CLOCKPIN, LOW);
-  delay(CLOCKSPEED / 2);
-}
-
 unsigned short read_address_pins() {
   unsigned short data = 0;
   for (int i = 0; i < 16; i++) {
@@ -89,6 +80,15 @@ int set_data_state(int state) {
     return 0;
   }
   return 1;
+}
+
+void clock_cycle() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(CLOCKPIN, HIGH);
+  delay(CLOCKSPEED / 2);
+  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(CLOCKPIN, LOW);
+  delay(CLOCKSPEED / 2);
 }
 
 void init_cpu() {
@@ -128,6 +128,7 @@ void setup() {
 void handle_write_request(unsigned short addr) {
   byte data = read_byte();
   print_byte(data);
+  Serial.println("not implemented");
 }
 
 void handle_read_request(unsigned short addr) {
@@ -142,6 +143,7 @@ void handle_read_request(unsigned short addr) {
       break;
     default:
       write_byte(0xEA);
+      Serial.println("not implemented, sending NOP");
       break;
   }
 }

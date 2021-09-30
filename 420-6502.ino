@@ -40,7 +40,9 @@ enum data_pins {
 };
 
 // Our hacky pretend ROM
-const byte program[] = {NOP};
+const byte program[] = {
+    NOP, NOP, NOP, 0x4c, highByte(STARTOFFSET), lowByte(STARTOFFSET),
+};
 
 void print_short(unsigned short d) {
   char msg[32];

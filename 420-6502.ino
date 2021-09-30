@@ -3,6 +3,7 @@
 #define CLOCKSPEED 100
 #define SERIALBAUD 115200
 #define NOP 0xEA
+#define STARTOFFSET 0x00
 
 #define RESETPIN 3
 #define CLOCKPIN 4
@@ -117,14 +118,14 @@ void handle_read_request(unsigned short addr) {
     // These are the addresses the CPU first requests data from to
     // determine where to start execution
     case 0xFFFC:
-      write_byte(0x00);
+      write_byte(highByte(STARTOFFSET));
       break;
     case 0xFFFD:
-      write_byte(0x00);
+      write_byte(lowByte(STARTOFFSET));
       break;
     default:
-      if (addr < sizeof(program)) {
-        write_byte(program[addr]);
+      if ((addr - STARTOFFSET) < sizeof(program)) {
+        write_byte(program[addr - STARTOFFSET]);
         Serial.println("not implemented, sending NOP");
       } else {
         Serial.println("CPU Requested out of bounds location");

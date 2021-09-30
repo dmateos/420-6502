@@ -81,7 +81,7 @@ byte read_byte() {
 }
 
 int set_data_state(int state) {
-  if (state != OUTPUT || state != INPUT) {
+  if (state != OUTPUT && state != INPUT) {
     return 1;
   }
 

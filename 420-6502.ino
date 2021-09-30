@@ -126,6 +126,10 @@ void handle_read_request(unsigned short addr) {
       write_byte(lowByte(STARTOFFSET));
       break;
     default:
+      write_byte(NOP);
+      break;
+
+      // TODO Fix this
       if ((addr - STARTOFFSET) < sizeof(program)) {
         write_byte(program[addr - STARTOFFSET]);
         Serial.println("not implemented, sending NOP");

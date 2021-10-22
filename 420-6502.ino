@@ -9,7 +9,7 @@
 #define CLOCKPIN 4
 #define RWPIN 5
 
-#define RAMTEST false
+#define RAMTEST true
 
 enum address_pins {
   ADDRESSPIN_0 = 22,
@@ -128,8 +128,8 @@ int ram_test() {
 
     delay(1000);
 
-    set_data_state(INPUT);
     digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
+    set_data_state(INPUT);
     byte b = read_byte();
 
     if (b == data[i]) {

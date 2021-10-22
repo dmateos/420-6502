@@ -3,11 +3,13 @@
 #define CLOCKSPEED 100
 #define SERIALBAUD 115200
 #define NOP 0xEA
-#define STARTOFFSET 0x00
+#define STARTOFFSET 0x00FF
 
 #define RESETPIN 3
 #define CLOCKPIN 4
+
 #define RWPIN 5
+#defien RAM_DISABLE 6
 
 enum address_pins {
   ADDRESSPIN_0 = 22,
@@ -41,7 +43,9 @@ enum data_pins {
 
 // Our hacky pretend ROM
 const byte program[] = {
-    NOP, NOP, NOP, 0x4c, highByte(STARTOFFSET), lowByte(STARTOFFSET),
+    NOP,
+    NOP,
+    NOP,
 };
 
 void print_short(unsigned short d) {
@@ -56,7 +60,13 @@ void print_byte(byte b) {
   Serial.print(msg);
 }
 
-unsigned short read_address_pins() {
+void write_address(unsigned short address) {
+  for (int i = 0; i < 16; i++) {
+    digitalWrite(ADDRESSPIN_0 + i, (address >> i) & 1);
+  }
+}
+
+unsigned short read_address() {
   unsigned short data = 0;
   for (int i = 0; i < 16; i++) {
     byte d = digitalRead(ADDRESSPIN_15 - i);
@@ -81,12 +91,22 @@ byte read_byte() {
 }
 
 int set_data_state(int state) {
-  if (state != OUTPUT && state != INPUT) {
+  if (state != OUTPUT || state != INPUT) {
     return 1;
   }
 
   for (int i = 0; i < 8; i++) {
     pinMode(DATAPIN_0 + i, state);
+  }
+  return 0;
+}
+
+int set_address_state(int state) {
+  if (state != OUTPUT || state != INPUT) {
+    return 1;
+  }
+  for (int i = 0; i < 16; i++) {
+    pinMode(ADDRESSPIN_0 + i, state);
   }
   return 0;
 }
@@ -103,8 +123,9 @@ void clock_cycle() {
 void init_cpu() {
   // Reset the CPU
   digitalWrite(RESETPIN, LOW);
-  clock_cycle();
-  clock_cycle();
+  for (int i = 0; i < 4; i++) {
+    clock_cycle();
+  }
   digitalWrite(RESETPIN, HIGH);
   Serial.println("CPU Reset");
 }
@@ -140,6 +161,25 @@ void handle_read_request(unsigned short addr) {
   }
 }
 
+int ram_test() {
+  set_address_state(OUTPUT);
+  set_data_state(OUTPUT);
+  write_address(0xF0F0);
+  write_byte(0xFF);
+
+  set_data_state(INPUT);
+  write_address(0xF0F0);
+  byte b = read_byte();
+
+  if (b == 0xFF) {
+    Serial.println("RAM Test Passed");
+    return 0;
+  } else {
+    Serial.println("RAM Test Failed");
+    return 1;
+  }
+}
+
 void setup() {
   // Setup initial state
   pinMode(LED_BUILTIN, OUTPUT);
@@ -147,9 +187,7 @@ void setup() {
   pinMode(CLOCKPIN, OUTPUT);
   pinMode(RWPIN, INPUT);
 
-  for (int i = 0; i < 16; i++) {
-    pinMode(ADDRESSPIN_0 + i, INPUT);
-  }
+  set_address_state(INPUT);
   set_data_state(OUTPUT);
 
   digitalWrite(LED_BUILTIN, LOW);
@@ -168,7 +206,7 @@ void setup() {
 void loop() {
   clock_cycle();
 
-  unsigned short addr_data = read_address_pins();
+  unsigned short addr_data = read_address();
   print_short(addr_data);
 
   // High is a read request from the CPU

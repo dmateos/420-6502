@@ -110,6 +110,25 @@ int set_address_state(int state) {
   return 0;
 }
 
+int ram_test() {
+  set_address_state(OUTPUT);
+  set_data_state(OUTPUT);
+  write_address(0xF0F0);
+  write_byte(0xFF);
+
+  set_data_state(INPUT);
+  write_address(0xF0F0);
+  byte b = read_byte();
+
+  if (b == 0xFF) {
+    Serial.println("RAM Test Passed");
+    return 0;
+  } else {
+    Serial.println("RAM Test Failed");
+    return 1;
+  }
+}
+
 void clock_cycle() {
   digitalWrite(LED_BUILTIN, HIGH);
   digitalWrite(CLOCKPIN, HIGH);
@@ -157,25 +176,6 @@ void handle_read_request(unsigned short addr) {
         Serial.println("CPU Requested out of bounds location");
       }
       break;
-  }
-}
-
-int ram_test() {
-  set_address_state(OUTPUT);
-  set_data_state(OUTPUT);
-  write_address(0xF0F0);
-  write_byte(0xFF);
-
-  set_data_state(INPUT);
-  write_address(0xF0F0);
-  byte b = read_byte();
-
-  if (b == 0xFF) {
-    Serial.println("RAM Test Passed");
-    return 0;
-  } else {
-    Serial.println("RAM Test Failed");
-    return 1;
   }
 }
 

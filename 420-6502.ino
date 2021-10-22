@@ -7,8 +7,9 @@
 
 #define RESETPIN 3
 #define CLOCKPIN 4
-
 #define RWPIN 5
+
+#define RAMTEST true
 
 enum address_pins {
   ADDRESSPIN_0 = 22,
@@ -93,7 +94,6 @@ int set_data_state(int state) {
   if (state != OUTPUT || state != INPUT) {
     return 1;
   }
-
   for (int i = 0; i < 8; i++) {
     pinMode(DATAPIN_0 + i, state);
   }
@@ -111,21 +111,31 @@ int set_address_state(int state) {
 }
 
 int ram_test() {
+  // TODO we need to toggle the rams read/write state.
+  unsigned short testaddr[] = {0x00FF, 0x00AA, 0x0055};
+  byte data[] = {0xFF, 0xAA, 0xBB};
+
   set_address_state(OUTPUT);
-  set_data_state(OUTPUT);
-  write_address(0xF0F0);
-  write_byte(0xFF);
+  pinMode(RWPIN, INPUT);
 
-  set_data_state(INPUT);
-  write_address(0xF0F0);
-  byte b = read_byte();
+  for (int i = 0; i < 3; i++) {
+    set_data_state(OUTPUT);
+    digitalWrite(RWPIN, LOW);  // low to tell the ram we want to write
+    write_address(testaddr[i]);
+    write_byte(data[i]);
 
-  if (b == 0xFF) {
-    Serial.println("RAM Test Passed");
-    return 0;
-  } else {
-    Serial.println("RAM Test Failed");
-    return 1;
+    set_data_state(INPUT);
+    digitalWrite(RWPIN, HIGH);  // low to tell the ram we want to read
+    write_address(testaddr[i]);
+    byte b = read_byte();
+
+    if (b == data[i]) {
+      Serial.println("RAM Test Passed");
+      return 0;
+    } else {
+      Serial.println("RAM Test Failed");
+      return 1;
+    }
   }
 }
 
@@ -203,6 +213,12 @@ void setup() {
 }
 
 void loop() {
+  if (RAMTEST) {
+    // This doesnt clean up state so we cant do normal stuff after this.
+    ram_test();
+    return;
+  }
+
   clock_cycle();
 
   unsigned short addr_data = read_address();

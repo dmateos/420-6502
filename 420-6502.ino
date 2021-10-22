@@ -112,8 +112,8 @@ int set_address_state(int state) {
 
 int ram_test() {
   // TODO we need to toggle the rams read/write state.
-  unsigned short testaddr[] = {0x00FF, 0x00AA, 0x0055};
-  byte data[] = {0xFF, 0xAA, 0xBB};
+  unsigned short testaddr[] = {0x00FF, 0x00AA, 0x0055, 0x0FFF};
+  byte data[] = {0xFF, 0xAA, 0xBB, 0xCC};
   bool error = 0;
 
   set_address_state(OUTPUT);
@@ -123,8 +123,8 @@ int ram_test() {
     write_address(testaddr[i]);
 
     set_data_state(OUTPUT);
-    digitalWrite(RWPIN, LOW);  // low to tell the ram we want to write
     write_byte(data[i]);
+    digitalWrite(RWPIN, LOW);  // low to tell the ram we want to write
 
     delay(1000);
 
@@ -135,7 +135,6 @@ int ram_test() {
     if (b == data[i]) {
       Serial.println("RAM Test Passed");
       print_byte(b);
-      print_byte(data[i]);
     } else {
       Serial.println("RAM Test Failed");
       print_byte(b);

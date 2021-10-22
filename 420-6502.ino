@@ -3,13 +3,13 @@
 #define CLOCKSPEED 100
 #define SERIALBAUD 115200
 #define NOP 0xEA
-#define STARTOFFSET 0x00FF
+#define STARTOFFSET 0xFF00
 
 #define RESETPIN 3
 #define CLOCKPIN 4
 #define RWPIN 5
 
-#define RAMTEST true
+#define RAMTEST false
 
 enum address_pins {
   ADDRESSPIN_0 = 22,
@@ -91,7 +91,7 @@ byte read_byte() {
 }
 
 int set_data_state(int state) {
-  if (state != OUTPUT || state != INPUT) {
+  if (state != OUTPUT && state != INPUT) {
     return 1;
   }
   for (int i = 0; i < 8; i++) {
@@ -101,7 +101,7 @@ int set_data_state(int state) {
 }
 
 int set_address_state(int state) {
-  if (state != OUTPUT || state != INPUT) {
+  if (state != OUTPUT && state != INPUT) {
     return 1;
   }
   for (int i = 0; i < 16; i++) {
@@ -177,10 +177,10 @@ void handle_read_request(unsigned short addr) {
     // These are the addresses the CPU first requests data from to
     // determine where to start execution
     case 0xFFFC:
-      write_byte(highByte(STARTOFFSET));
+      write_byte(lowByte(STARTOFFSET));
       break;
     case 0xFFFD:
-      write_byte(lowByte(STARTOFFSET));
+      write_byte(highByte(STARTOFFSET));
       break;
     default:
       write_byte(NOP);

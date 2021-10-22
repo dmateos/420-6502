@@ -117,25 +117,29 @@ int ram_test() {
   bool error = 0;
 
   set_address_state(OUTPUT);
-  pinMode(RWPIN, INPUT);
+  pinMode(RWPIN, OUTPUT);
 
   for (int i = 0; i < 3; i++) {
+    write_address(testaddr[i]);
+
     set_data_state(OUTPUT);
     digitalWrite(RWPIN, LOW);  // low to tell the ram we want to write
-    write_address(testaddr[i]);
     write_byte(data[i]);
 
     delay(1000);
 
     set_data_state(INPUT);
-    digitalWrite(RWPIN, HIGH);  // low to tell the ram we want to read
-    write_address(testaddr[i]);
+    digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
     byte b = read_byte();
 
     if (b == data[i]) {
       Serial.println("RAM Test Passed");
+      print_byte(b);
+      print_byte(data[i]);
     } else {
       Serial.println("RAM Test Failed");
+      print_byte(b);
+      print_byte(data[i]);
       error = 1;
     }
     delay(1000);

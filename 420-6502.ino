@@ -9,7 +9,6 @@
 #define CLOCKPIN 4
 
 #define RWPIN 5
-#defien RAM_DISABLE 6
 
 enum address_pins {
   ADDRESSPIN_0 = 22,

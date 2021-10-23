@@ -8,6 +8,7 @@
 #define RESETPIN 3
 #define CLOCKPIN 4
 #define RWPIN 5
+#define CPUBEPIN 6
 
 #define RAMTEST true
 
@@ -111,8 +112,9 @@ int set_address_state(int state) {
 }
 
 int ram_test() {
-  unsigned short testaddr[] = {0x00FF, 0x00AA, 0x0055, 0x0FFF};
-  byte data[] = {0xFF, 0xAA, 0xBB, 0xCC};
+  unsigned short testaddr[] = {0x00ff, 0x00aa, 0x0055, 0x0fff};  // fails....
+  // unsigned short testaddr[] = {0x0022, 0x00AA, 0x0055, 0x0FFF}; //passes
+  byte data[] = {0xff, 0xaa, 0xbb, 0xcc};
   int error = 0;
 
   set_address_state(OUTPUT);
@@ -157,6 +159,9 @@ void clock_cycle() {
 }
 
 void init_cpu() {
+  // Enable the CPU Bus
+  digitalWrite(CPUBEPIN, HIGH);
+
   // Reset the CPU
   digitalWrite(RESETPIN, LOW);
   for (int i = 0; i < 4; i++) {
@@ -203,6 +208,7 @@ void setup() {
   pinMode(RESETPIN, OUTPUT);
   pinMode(CLOCKPIN, OUTPUT);
   pinMode(RWPIN, INPUT);
+  pinMode(CPUBEPIN, OUTPUT);
 
   set_address_state(INPUT);
   set_data_state(OUTPUT);
@@ -210,6 +216,7 @@ void setup() {
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(RESETPIN, HIGH);
   digitalWrite(CLOCKPIN, LOW);
+  digitalWrite(CPUBEPIN, LOW);  // Disable the CPU bus for now
 
   // Setup serial connection back to computer
   Serial.begin(SERIALBAUD);

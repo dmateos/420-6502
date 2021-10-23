@@ -229,6 +229,7 @@ void setup() {
 
 void loop() {
   if (RAMTEST) {
+    digitalWrite(CPUBEPIN, LOW);  // Disable CPU bus so no ram conflicts
     // This doesnt clean up state so we cant do normal stuff after this.
     ram_test();
     return;

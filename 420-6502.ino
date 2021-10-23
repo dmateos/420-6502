@@ -4,13 +4,15 @@
 #define SERIALBAUD 115200
 #define NOP 0xEA
 #define STARTOFFSET 0xFF00
-
-#define RESETPIN 3
-#define CLOCKPIN 4
-#define RWPIN 5
-#define CPUBEPIN 6
-
 #define RAMTEST true
+
+enum control_pins {
+  RESETPIN = 3,
+  CLOCKPIN = 4,
+  RWPIN = 5,
+  CPUBEPIN = 6,
+  RAMBEPIN = 7,
+};
 
 enum address_pins {
   ADDRESSPIN_0 = 22,

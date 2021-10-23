@@ -113,7 +113,7 @@ int set_address_state(int state) {
 int ram_test() {
   unsigned short testaddr[] = {0x00FF, 0x00AA, 0x0055, 0x0FFF};
   byte data[] = {0xFF, 0xAA, 0xBB, 0xCC};
-  bool error = 0;
+  int error = 0;
 
   set_address_state(OUTPUT);
   pinMode(RWPIN, OUTPUT);
@@ -129,6 +129,7 @@ int ram_test() {
   digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
   set_data_state(INPUT);
   for (int i = 0; i < 4; i++) {
+    write_address(testaddr[i]);
     byte b = read_byte();
 
     if (b == data[i]) {

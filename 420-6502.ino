@@ -117,7 +117,7 @@ int ram_test() {
   pinMode(RWPIN, OUTPUT);
 
   set_data_state(OUTPUT);
-  for (int i = 0; i < 2 ^ 16; i++) {
+  for (int i = 0; i < 2 ^ 15; i++) {
     write_address(i);
     write_byte(i % 8);
     digitalWrite(RWPIN, LOW);
@@ -128,15 +128,15 @@ int ram_test() {
 
   digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
   set_data_state(INPUT);
-  for (int i = 0; i < 2 ^ 16; i++) {
+  for (int i = 0; i < 2 ^ 15; i++) {
     write_address(i);
     byte b = read_byte();
 
     if (b != i % 8) {
       Serial.println("RAM Test Failed");
       print_byte(b);
-      print_byte(data[i]);
-      print_short(testaddr[i]);
+      print_byte(i % 8);
+      print_short(i);
       error++;
     }
     delay(1);

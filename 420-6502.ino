@@ -119,9 +119,8 @@ int ram_test() {
   set_data_state(OUTPUT);
   for (int i = 0; i < 2 ^ 15; i++) {
     write_address(i);
-    write_byte(i % 8);
+    write_byte(i % 256);
     digitalWrite(RWPIN, LOW);
-    delay(1);
     digitalWrite(RWPIN, HIGH);
   }
   Serial.println("Wrote ram values");
@@ -135,16 +134,17 @@ int ram_test() {
     if (b != i % 8) {
       Serial.println("RAM Test Failed");
       print_byte(b);
-      print_byte(i % 8);
+      print_byte(i % 256);
       print_short(i);
       error++;
     }
-    delay(1);
   }
 
   if (error == 0) {
     Serial.println("RAM Test Passed");
   }
+
+  delay(1000000);
   return error;
 }
 

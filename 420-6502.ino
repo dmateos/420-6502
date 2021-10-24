@@ -110,7 +110,7 @@ int set_address_state(int state) {
   return 0;
 }
 
-int ram_test() {
+unsigned int ram_test() {
   unsigned int error = 0;
 
   set_address_state(OUTPUT);

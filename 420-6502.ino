@@ -124,7 +124,7 @@ unsigned int ram_test() {
   set_address_state(OUTPUT);
   digitalWrite(CPUBEPIN, LOW);
 
-  Serial.println("RAM test: writting values to 0x0:0x8000");
+  Serial.println("RAM test: writing values 0x0:0x8000");
   // Write a value to each memory address
   set_data_state(OUTPUT);
   for (unsigned int i = 0; i < 0x8000; i++) {
@@ -137,7 +137,7 @@ unsigned int ram_test() {
     digitalWrite(RWPIN, HIGH);
   }
 
-  Serial.println("RAM test: reading values from 0x0:0x8000");
+  Serial.println("RAM test: reading values 0x0:0x8000");
   // Read back each value from each address and verify
   digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
   set_data_state(INPUT);
@@ -188,7 +188,7 @@ void init_cpu() {
     clock_cycle();
   }
   digitalWrite(RESETPIN, HIGH);
-  Serial.println("CPU reset");
+  Serial.println("CPU: reset");
 }
 
 void handle_write_request(unsigned short addr) {

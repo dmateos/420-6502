@@ -12,6 +12,8 @@ enum control_pins {
   CLOCKPIN = 4,  // (out) CPU clock pusle
   RWPIN = 5,     // (in/out) CPU wants to read or write (in), HIGH for read
   CPUBEPIN = 6,  // (out) CPU Bus controll, HIGH for enabled
+
+  // Maybe pivot on 15th addr line here?
   RAMBEPIN = 7,  // (out) MEM Bus controll, LOW for enabled
 };
 

@@ -121,10 +121,11 @@ int ram_test() {
   pinMode(RWPIN, OUTPUT);
 
   set_data_state(OUTPUT);
-  digitalWrite(RWPIN, LOW);  // low to tell the ram we want to write
   for (int i = 0; i < 4; i++) {
     write_address(testaddr[i]);
     write_byte(data[i]);
+    digitalWrite(RWPIN, LOW);   // low to tell the ram we want to write
+    digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
     delay(1000);
   }
 

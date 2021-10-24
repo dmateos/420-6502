@@ -10,7 +10,10 @@ enum control_pins {
   RESETPIN = 3,  // (out) CPU reset, hold HIGH
   CLOCKPIN = 4,  // (out) CPU clock pusle
   RWPIN = 5,     // (in/out) CPU wants to read or write (in), HIGH for read
-  CPUBEPIN = 6,  // (out) Enables or disables CPU bus (WDC65C02), LOW to disable
+  CPUBEPIN = 6,  // (out) Bus controll
+                 //  STATE  | CPU | MEMORY
+                 //  high   | on  | off
+                 //  low    | off | on
 };
 
 enum address_pins {

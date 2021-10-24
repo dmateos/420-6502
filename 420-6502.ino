@@ -121,6 +121,7 @@ unsigned int ram_test() {
 
   set_address_state(OUTPUT);
   pinMode(RWPIN, OUTPUT);
+  digitalWrite(CPUBEPIN, LOW);
 
   // Write a value to each memory address
   set_data_state(OUTPUT);

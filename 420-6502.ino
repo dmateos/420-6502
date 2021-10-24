@@ -120,6 +120,7 @@ int ram_test() {
   for (int i = 0; i < 2 ^ 15; i++) {
     write_address(i);
     write_byte(i % 256);
+    print_short(i);
     digitalWrite(RWPIN, LOW);
     digitalWrite(RWPIN, HIGH);
   }
@@ -131,7 +132,7 @@ int ram_test() {
     write_address(i);
     byte b = read_byte();
 
-    if (b != i % 8) {
+    if (b != i % 256) {
       Serial.println("RAM Test Failed");
       print_byte(b);
       print_byte(i % 256);

@@ -116,6 +116,7 @@ int ram_test() {
   set_address_state(OUTPUT);
   pinMode(RWPIN, OUTPUT);
 
+  // Write a value to each memory address
   set_data_state(OUTPUT);
   for (unsigned int i = 0; i < 0x8000; i++) {
     write_address(i);
@@ -126,6 +127,7 @@ int ram_test() {
   }
   Serial.println("Wrote ram values");
 
+  // Read back each value from each address and verify
   digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
   set_data_state(INPUT);
   for (unsigned int i = 0; i < 0x8000; i++) {

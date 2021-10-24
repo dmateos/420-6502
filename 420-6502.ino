@@ -3,7 +3,7 @@
 #define CLOCKSPEED 100
 #define SERIALBAUD 115200
 #define NOP 0xEA
-#define STARTOFFSET 0xFF00
+#define STARTOFFSET 0x0000
 #define RAMTEST true
 
 enum control_pins {

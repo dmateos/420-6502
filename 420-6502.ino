@@ -119,6 +119,7 @@ int set_address_state(int state) {
 unsigned int ram_test() {
   unsigned int error = 0;
 
+  // Make sure these are in a known state
   set_address_state(OUTPUT);
   pinMode(RWPIN, OUTPUT);
   digitalWrite(CPUBEPIN, LOW);

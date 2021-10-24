@@ -5,6 +5,7 @@
 #define NOP 0xEA
 #define STARTOFFSET 0x0000
 #define RAMTEST true
+#define CPUENABLED true
 
 enum control_pins {
   RESETPIN = 3,  // (out) CPU reset, hold HIGH
@@ -45,6 +46,8 @@ enum data_pins {
   DATAPIN_6,
   DATAPIN_7,
 };
+
+static unsigned int ram_errors = 0;
 
 // Our hacky pretend ROM
 const byte program[] = {
@@ -169,6 +172,11 @@ void clock_cycle() {
 }
 
 void init_cpu() {
+  // Make sure these are in a known state
+  pinMode(RWPIN, INPUT);
+  set_address_state(INPUT);
+  set_data_state(OUTPUT);
+
   // Enable the CPU Bus
   digitalWrite(CPUBEPIN, HIGH);
 
@@ -234,15 +242,17 @@ void setup() {
     continue;
   }
 
-  init_cpu();
+  if (RAMTEST) {
+    ram_errors = ram_test();
+  }
+
+  if (CPUENABLED) {
+    init_cpu();
+  }
 }
 
 void loop() {
-  if (RAMTEST) {
-    digitalWrite(CPUBEPIN, LOW);  // Disable CPU bus so no ram conflicts
-    // This doesnt clean up state so we cant do normal stuff after this.
-    ram_test();
-    delay(1000000);
+  if (!CPUENABLED) {
     return;
   }
 

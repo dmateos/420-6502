@@ -122,6 +122,9 @@ int ram_test() {
     write_address(i);
     write_byte(i % 256);
     print_short(i);
+
+    // Pulse to signfiy a write to ram
+    // We might need to delay here if were too fast
     digitalWrite(RWPIN, LOW);
     digitalWrite(RWPIN, HIGH);
   }

@@ -136,12 +136,12 @@ int ram_test() {
     if (b == data[i]) {
       Serial.println("RAM Test Passed");
       print_byte(b);
-      print_address(testaddr[i]);
+      print_short(testaddr[i]);
     } else {
       Serial.println("RAM Test Failed");
       print_byte(b);
       print_byte(data[i]);
-      print_address(testaddr[i]);
+      print_short(testaddr[i]);
       error++;
     }
     delay(1000);

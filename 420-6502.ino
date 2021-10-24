@@ -11,7 +11,6 @@ enum control_pins {
   CLOCKPIN = 4,  // (out) CPU clock pusle
   RWPIN = 5,     // (in/out) CPU wants to read or write (in), HIGH for read
   CPUBEPIN = 6,  // (out) Enables or disables CPU bus (WDC65C02), LOW to disable
-  RAMBEPIN = 7,
 };
 
 enum address_pins {
@@ -112,26 +111,25 @@ int set_address_state(int state) {
 }
 
 int ram_test() {
-  unsigned short testaddr[] = {0x00ff, 0x00aa, 0x0055, 0x0fff};  // fails....
-  // unsigned short testaddr[] = {0x0022, 0x00AA, 0x0055, 0x0FFF}; //passes
-  byte data[] = {0xff, 0xaa, 0xbb, 0xcc};
+  unsigned short testaddr[] = {0xAAAA, 0x00aa, 0x5555, 0x0fff, 0x0001, 0x00f00};
+  byte data[] = {0xaa, 0x55, 0xFF, 0x00, 0xCC, 0xEE};
   int error = 0;
 
   set_address_state(OUTPUT);
   pinMode(RWPIN, OUTPUT);
 
   set_data_state(OUTPUT);
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < sizeof(data); i++) {
     write_address(testaddr[i]);
     write_byte(data[i]);
-    digitalWrite(RWPIN, LOW);   // low to tell the ram we want to write
-    digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
-    delay(1000);
+    digitalWrite(RWPIN, LOW);
+    delay(1);
+    digitalWrite(RWPIN, HIGH);
   }
 
   digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
   set_data_state(INPUT);
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < sizeof(data); i++) {
     write_address(testaddr[i]);
     byte b = read_byte();
 

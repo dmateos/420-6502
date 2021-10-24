@@ -124,6 +124,7 @@ unsigned int ram_test() {
   set_address_state(OUTPUT);
   digitalWrite(CPUBEPIN, LOW);
 
+  Serial.println("RAM test: writting values to 0x0:0x8000");
   // Write a value to each memory address
   set_data_state(OUTPUT);
   for (unsigned int i = 0; i < 0x8000; i++) {
@@ -135,8 +136,8 @@ unsigned int ram_test() {
     digitalWrite(RWPIN, LOW);
     digitalWrite(RWPIN, HIGH);
   }
-  Serial.println("written ram values between 0x0 and 0x8000");
 
+  Serial.println("RAM test: reading values from 0x0:0x8000");
   // Read back each value from each address and verify
   digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
   set_data_state(INPUT);
@@ -145,19 +146,18 @@ unsigned int ram_test() {
     byte b = read_byte();
 
     if (b != (i % 256)) {
-      Serial.println("RAM test failed");
+      Serial.println("RAM test: failed");
       print_byte(b);
       print_byte(i % 256);
       print_short(i);
       error++;
     }
   }
-  Serial.println("read ram values between 0x0 and 0x8000");
 
   if (error == 0) {
-    Serial.println("RAM test passed");
+    Serial.println("RAM test: passed");
   } else {
-    Serial.println("RAM test failed");
+    Serial.println("RAM test: failed");
     print_short(error);
   }
 
@@ -188,13 +188,13 @@ void init_cpu() {
     clock_cycle();
   }
   digitalWrite(RESETPIN, HIGH);
-  Serial.println("CPU Reset");
+  Serial.println("CPU reset");
 }
 
 void handle_write_request(unsigned short addr) {
   byte data = read_byte();
+  Serial.println("CPU write: not implemented");
   print_byte(data);
-  Serial.println("not implemented");
 }
 
 void handle_read_request(unsigned short addr) {
@@ -203,9 +203,13 @@ void handle_read_request(unsigned short addr) {
     // determine where to start execution
     case 0xFFFC:
       write_byte(lowByte(STARTOFFSET));
+      Serial.println("CPU: requested 0xFFFC start byte");
+      print_byte(lowByte(STARTOFFSET));
       break;
     case 0xFFFD:
       write_byte(highByte(STARTOFFSET));
+      Serial.println("CPU: requested 0xFFFD start byte");
+      print_byte(highByte(STARTOFFSET));
       break;
     default:
       write_byte(NOP);
@@ -214,9 +218,9 @@ void handle_read_request(unsigned short addr) {
       // TODO Fix this
       if ((addr - STARTOFFSET) < sizeof(program)) {
         write_byte(program[addr - STARTOFFSET]);
-        Serial.println("not implemented, sending NOP");
+        Serial.println("CPU: not implemented, sending NOP");
       } else {
-        Serial.println("CPU Requested out of bounds location");
+        Serial.println("CPU: requested out of bounds location");
       }
       break;
   }
@@ -262,14 +266,12 @@ void loop() {
   clock_cycle();
 
   unsigned short addr_data = read_address();
-  print_short(addr_data);
+  // print_short(addr_data);
 
   // High is a read request from the CPU
   if (digitalRead(RWPIN) == HIGH) {
-    Serial.println("CPU wants to read");
     handle_read_request(addr_data);
   } else {
-    Serial.println("CPU wants to write");
     handle_write_request(addr_data);
   }
 }

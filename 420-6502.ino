@@ -211,6 +211,8 @@ void handle_read_request(unsigned short addr) {
       Serial.println("CPU: requested 0xFFFD start byte");
       print_byte(highByte(STARTOFFSET));
       break;
+    case STARTOFFSET:
+      Serial.println("CPU: running");
     default:
       write_byte(NOP);
       break;

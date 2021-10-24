@@ -111,42 +111,40 @@ int set_address_state(int state) {
 }
 
 int ram_test() {
-  unsigned short testaddr[] = {0xAAAA, 0x00aa, 0x5555, 0x0fff, 0x0001, 0x00f00};
-  byte data[] = {0xaa, 0x55, 0xFF, 0x00, 0xCC, 0xEE};
   int error = 0;
 
   set_address_state(OUTPUT);
   pinMode(RWPIN, OUTPUT);
 
   set_data_state(OUTPUT);
-  for (int i = 0; i < sizeof(data); i++) {
-    write_address(testaddr[i]);
-    write_byte(data[i]);
+  for (int i = 0; i < 2 ^ 16; i++) {
+    write_address(i);
+    write_byte(i % 8);
     digitalWrite(RWPIN, LOW);
     delay(1);
     digitalWrite(RWPIN, HIGH);
   }
+  Serial.println("Wrote ram values");
 
   digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
   set_data_state(INPUT);
-  for (int i = 0; i < sizeof(data); i++) {
-    write_address(testaddr[i]);
+  for (int i = 0; i < 2 ^ 16; i++) {
+    write_address(i);
     byte b = read_byte();
 
-    if (b == data[i]) {
-      Serial.println("RAM Test Passed");
-      print_byte(b);
-      print_short(testaddr[i]);
-    } else {
+    if (b != i % 8) {
       Serial.println("RAM Test Failed");
       print_byte(b);
       print_byte(data[i]);
       print_short(testaddr[i]);
       error++;
     }
-    delay(1000);
+    delay(1);
   }
 
+  if (error == 0) {
+    Serial.println("RAM Test Passed");
+  }
   return error;
 }
 

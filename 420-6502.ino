@@ -136,7 +136,7 @@ unsigned int ram_test() {
     digitalWrite(RWPIN, LOW);
     digitalWrite(RWPIN, HIGH);
   }
-  Serial.println("Wrote ram values");
+  Serial.println("written ram values between 0x0 and 0x8000");
 
   // Read back each value from each address and verify
   digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
@@ -146,18 +146,19 @@ unsigned int ram_test() {
     byte b = read_byte();
 
     if (b != (i % 256)) {
-      Serial.println("RAM Test Failed");
+      Serial.println("RAM test failed");
       print_byte(b);
       print_byte(i % 256);
       print_short(i);
       error++;
     }
   }
+  Serial.println("read ram values between 0x0 and 0x8000");
 
   if (error == 0) {
-    Serial.println("RAM Test Passed");
+    Serial.println("RAM test passed");
   } else {
-    Serial.println("RAM Test Failed");
+    Serial.println("RAM test failed");
     print_short(error);
   }
 
@@ -243,6 +244,7 @@ void setup() {
   while (!Serial) {
     continue;
   }
+  Serial.println("420-6502-001");
 
   if (RAMTEST) {
     ram_errors = ram_test();

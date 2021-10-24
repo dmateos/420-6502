@@ -11,10 +11,8 @@ enum control_pins {
   RESETPIN = 3,  // (out) CPU reset, hold HIGH
   CLOCKPIN = 4,  // (out) CPU clock pusle
   RWPIN = 5,     // (in/out) CPU wants to read or write (in), HIGH for read
-  CPUBEPIN = 6,  // (out) Bus controll
-                 //  STATE  | CPU | MEMORY
-                 //  high   | on  | off
-                 //  low    | off | on
+  CPUBEPIN = 6,  // (out) CPU Bus controll, HIGH for enabled
+  RAMBEPIN = 7,  // (out) MEM Bus controll, LOW for enabled
 };
 
 enum address_pins {
@@ -122,7 +120,8 @@ unsigned int ram_test() {
   // Make sure these are in a known state
   pinMode(RWPIN, OUTPUT);
   set_address_state(OUTPUT);
-  digitalWrite(CPUBEPIN, LOW);
+  digitalWrite(CPUBEPIN, LOW);  // CPU bus disabled
+  digitalWrite(RAMBEPIN, LOW);  // RAM bus enabled
 
   Serial.println("RAM test: writing values 0x0:0x7FFF");
   // Write a value to each memory address
@@ -179,8 +178,8 @@ void init_cpu() {
   set_address_state(INPUT);
   set_data_state(OUTPUT);
 
-  // Enable the CPU Bus
-  digitalWrite(CPUBEPIN, HIGH);
+  digitalWrite(CPUBEPIN, HIGH);  // CPU bus enabled
+  digitalWrite(RAMBEPIN, HIGH);  // RAM bus disabled (FOR NOW)
 
   // Reset the CPU
   digitalWrite(RESETPIN, LOW);
@@ -235,6 +234,7 @@ void setup() {
   pinMode(CLOCKPIN, OUTPUT);
   pinMode(RWPIN, INPUT);
   pinMode(CPUBEPIN, OUTPUT);
+  pinMode(RAMBEPIN, OUTPUT);
 
   set_address_state(INPUT);
   set_data_state(OUTPUT);
@@ -242,7 +242,8 @@ void setup() {
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(RESETPIN, HIGH);
   digitalWrite(CLOCKPIN, LOW);
-  digitalWrite(CPUBEPIN, LOW);  // Disable the CPU bus for now
+  digitalWrite(CPUBEPIN, LOW);   // Disable the CPU bus for now
+  digitalWrite(RAMBEPIN, HIGH);  // Disable the MEM bus for now
 
   // Setup serial connection back to computer
   Serial.begin(SERIALBAUD);

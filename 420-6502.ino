@@ -129,7 +129,6 @@ unsigned int ram_test() {
   for (unsigned int i = 0; i < 0x8000; i++) {
     write_address(i);
     write_byte(i % 256);
-    print_short(i);
 
     // Pulse to signfiy a write to ram
     // We might need to delay here if were too fast

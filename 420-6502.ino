@@ -153,7 +153,6 @@ int ram_test() {
     print_short(error);
   }
 
-  delay(1000000);
   return error;
 }
 
@@ -240,6 +239,7 @@ void loop() {
     digitalWrite(CPUBEPIN, LOW);  // Disable CPU bus so no ram conflicts
     // This doesnt clean up state so we cant do normal stuff after this.
     ram_test();
+    delay(1000000);
     return;
   }
 

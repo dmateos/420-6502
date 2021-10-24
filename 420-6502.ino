@@ -111,7 +111,7 @@ int set_address_state(int state) {
 }
 
 int ram_test() {
-  int error = 0;
+  unsigned int error = 0;
 
   set_address_state(OUTPUT);
   pinMode(RWPIN, OUTPUT);
@@ -143,6 +143,9 @@ int ram_test() {
 
   if (error == 0) {
     Serial.println("RAM Test Passed");
+  } else {
+    Serial.println("RAM Test Failed");
+    print_short(error);
   }
 
   delay(1000000);

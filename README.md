@@ -12,6 +12,7 @@ How much can we abuse a WD 6502 with a Arduino Mega?
 * Provides the CPU clock 
 * Injects a program into ram and controls the CPU start vectors
 * Intercepts requests for high memory above the ram (0x7FFF)
+* Provides a serial debugging interface in/out of the AVR
 
 ## What it might do 
 * Provide a set of graphics/io registers

@@ -209,14 +209,9 @@ void init_cpu() {
   Serial.println("CPU: reset");
 }
 
-void handle_write_request(unsigned short addr) {
-  // byte data = read_byte();
-  // Serial.println("CPU write: not implemented");
-  // print_byte(data);
-  // print_short(addr);
-}
-
 void handle_read_request(unsigned short addr) {
+  print_short(addr);
+
   switch (addr) {
     // These are the addresses the CPU first requests data from to
     // determine where to start execution
@@ -281,13 +276,9 @@ void loop() {
 
   clock_cycle();
 
-  unsigned short addr_data = read_address();
-  // print_short(addr_data);
-
   // High is a read request from the CPU
   if (digitalRead(RWPIN) == HIGH) {
+    unsigned short addr_data = read_address();
     handle_read_request(addr_data);
-  } else {
-    handle_write_request(addr_data);
   }
 }

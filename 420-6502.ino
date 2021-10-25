@@ -119,6 +119,7 @@ void write_program_to_ram() {
   pinMode(RWPIN, OUTPUT);
   set_address_state(OUTPUT);
   digitalWrite(CPUBEPIN, LOW);  // CPU bus disabled
+  digitalWrite(RWPIN, HIGH);
 
   Serial.println("RAM: writing NOP program");
   for (unsigned int i = 0; i < 0x8000; i++) {
@@ -140,6 +141,7 @@ unsigned int ram_test() {
   pinMode(RWPIN, OUTPUT);
   set_address_state(OUTPUT);
   digitalWrite(CPUBEPIN, LOW);  // CPU bus disabled
+  digitalWrite(RWPIN, HIGH);
 
   Serial.println("RAM test: writing values 0x0:0x7FFF");
   // Write a value to each memory address

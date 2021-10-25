@@ -1,5 +1,7 @@
 # 420-6502
-How much can we abuse a WD 6502 with a Arduino Mega? 
+Custom built 6502 based computer
+
+System interface components
 
 ## Components
 * WDC 6502 CPU

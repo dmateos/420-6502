@@ -50,6 +50,7 @@ enum data_pins {
 static unsigned int ram_errors = 0;
 
 // Our hacky pretend ROM
+// TODO Replace with code to write NOPS to RAM.
 const byte program[] = {
     NOP,
 };
@@ -114,6 +115,11 @@ int set_address_state(int state) {
     pinMode(ADDRESSPIN_0 + i, state);
   }
   return 0;
+}
+
+void write_program_to_ram() {
+  for (unsigned int i = 0; i < sizeof(program); i++) {
+  }
 }
 
 unsigned int ram_test() {
@@ -258,13 +264,13 @@ void setup() {
     ram_errors = ram_test();
   }
 
-  if (CPUENABLED) {
+  if (CPUENABLED && ram_errors == 0) {
     init_cpu();
   }
 }
 
 void loop() {
-  if (!CPUENABLED) {
+  if (!CPUENABLED || ram_errors > 0) {
     return;
   }
 

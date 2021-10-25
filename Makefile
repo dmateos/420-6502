@@ -1,4 +1,4 @@
-setup-avr:
+avr-setup:
 	~/bin/arduino-cli core list
 	~/bin/arduino-cli core install arduino:avr
 

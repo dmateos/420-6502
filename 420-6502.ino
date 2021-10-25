@@ -202,6 +202,7 @@ void handle_write_request(unsigned short addr) {
   byte data = read_byte();
   Serial.println("CPU write: not implemented");
   print_byte(data);
+  print_short(addr);
 }
 
 void handle_read_request(unsigned short addr) {
@@ -220,6 +221,8 @@ void handle_read_request(unsigned short addr) {
       break;
     case STARTOFFSET:
       Serial.println("CPU: running");
+      write_byte(NOP);
+      break;
     default:
       write_byte(NOP);
       break;

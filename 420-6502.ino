@@ -3,7 +3,7 @@
 #define CLOCKSPEED 100
 #define SERIALBAUD 115200
 #define NOP 0xEA
-#define STARTOFFSET 0x0000
+#define STARTOFFSET 0x000F
 #define RAMTEST true
 #define CPUENABLED true
 
@@ -208,10 +208,10 @@ void init_cpu() {
 }
 
 void handle_write_request(unsigned short addr) {
-  byte data = read_byte();
-  Serial.println("CPU write: not implemented");
-  print_byte(data);
-  print_short(addr);
+  // byte data = read_byte();
+  // Serial.println("CPU write: not implemented");
+  // print_byte(data);
+  // print_short(addr);
 }
 
 void handle_read_request(unsigned short addr) {

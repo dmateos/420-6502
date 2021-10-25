@@ -2,7 +2,6 @@
 
 #define CLOCKSPEED 100
 #define SERIALBAUD 115200
-#define NOP 0xEA
 #define STARTOFFSET 0x000F
 #define RAMTEST true
 #define CPUENABLED true
@@ -45,12 +44,6 @@ enum data_pins {
 };
 
 static unsigned int ram_errors = 0;
-
-// Our hacky pretend ROM
-// TODO Replace with code to write NOPS to RAM.
-const byte program[] = {
-    NOP,
-};
 
 void print_short(unsigned short d) {
   char msg[32];

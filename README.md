@@ -9,7 +9,7 @@ System interface components
 * Arduino Mega 2560
 
 ## Software Components
-* 420-6502 AVR controller
+* 420-6502 AVR controller (BIOS)
 * 420-6502 OS 
 
 ## What it does

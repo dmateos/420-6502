@@ -115,8 +115,22 @@ int set_address_state(int state) {
 }
 
 void write_program_to_ram() {
-  for (unsigned int i = 0; i < sizeof(program); i++) {
+  // Make sure these are in a known state
+  pinMode(RWPIN, OUTPUT);
+  set_address_state(OUTPUT);
+  digitalWrite(CPUBEPIN, LOW);  // CPU bus disabled
+
+  Serial.println("RAM: writing NOP program");
+  for (unsigned int i = 0; i < 0x8000; i++) {
+    write_address(i);
+    write_byte(0xEA);
+
+    // Pulse to signfiy a write to ram
+    // We might need to delay here if were too fast
+    digitalWrite(RWPIN, LOW);
+    digitalWrite(RWPIN, HIGH);
   }
+  Serial.println("RAM: done writing NOP program");
 }
 
 unsigned int ram_test() {
@@ -180,7 +194,7 @@ void init_cpu() {
   // Make sure these are in a known state
   pinMode(RWPIN, INPUT);
   set_address_state(INPUT);
-  set_data_state(OUTPUT);
+  set_data_state(INPUT);
 
   digitalWrite(CPUBEPIN, HIGH);  // CPU bus enabled
 
@@ -205,30 +219,22 @@ void handle_read_request(unsigned short addr) {
     // These are the addresses the CPU first requests data from to
     // determine where to start execution
     case 0xFFFC:
+      set_data_state(OUTPUT);
       write_byte(lowByte(STARTOFFSET));
       Serial.println("CPU: requested 0xFFFC start byte");
       print_byte(lowByte(STARTOFFSET));
       break;
     case 0xFFFD:
+      set_data_state(OUTPUT);
       write_byte(highByte(STARTOFFSET));
       Serial.println("CPU: requested 0xFFFD start byte");
       print_byte(highByte(STARTOFFSET));
       break;
     case STARTOFFSET:
+      set_data_state(INPUT);
       Serial.println("CPU: running");
-      write_byte(NOP);
       break;
     default:
-      write_byte(NOP);
-      break;
-
-      // TODO Fix this
-      if ((addr - STARTOFFSET) < sizeof(program)) {
-        write_byte(program[addr - STARTOFFSET]);
-        Serial.println("CPU: not implemented, sending NOP");
-      } else {
-        Serial.println("CPU: requested out of bounds location");
-      }
       break;
   }
 }
@@ -242,7 +248,7 @@ void setup() {
   pinMode(CPUBEPIN, OUTPUT);
 
   set_address_state(INPUT);
-  set_data_state(OUTPUT);
+  set_data_state(INPUT);
 
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(RESETPIN, HIGH);
@@ -261,6 +267,7 @@ void setup() {
   }
 
   if (CPUENABLED && ram_errors == 0) {
+    write_program_to_ram();
     init_cpu();
   }
 }

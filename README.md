@@ -16,9 +16,9 @@ System interface components
 
 ## What it does
 * Checks every RAM address for read/write correctness
+* Injects a program into ram and controls the CPU start vectors
 * Starts the CPU 
 * Provides the CPU clock 
-* Injects a program into ram and controls the CPU start vectors
 * Intercepts requests for high memory above the ram (0x7FFF)
 * Provides a serial debugging interface in/out of the AVR
 

@@ -7,6 +7,8 @@ System interface components
 * WDC 6502 CPU
 * UM61256FK-15 32KB RAM 
 * Arduino Mega 2560
+* Breadboard
+* Shitloads of wires and LEDS
 
 ## Software Components
 * 420-6502 AVR controller (BIOS)

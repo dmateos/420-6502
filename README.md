@@ -4,7 +4,7 @@ Custom built 6502 based computer
 System interface components
 
 ## Hardware Components
-* WDC 6502 CPU
+* WDC 65C02 CPU
 * UM61256FK-15 32KB RAM 
 * Arduino Mega 2560
 * Breadboard

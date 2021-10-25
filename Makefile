@@ -8,5 +8,5 @@ avr-build:
 avr-install:
 	~/bin/arduino-cli upload -p /dev/ttyUSB0 --fqbn arduino:avr:mega 420-6502-avr/.
 
-avr-debug-console:
+avr-debug:
 	screen /dev/ttyUSB0 115200

@@ -2,15 +2,15 @@
 
 #define CLOCKSPEED 100
 #define SERIALBAUD 115200
-#define STARTOFFSET 0x000F
-#define RAMTEST true
-#define CPUENABLED true
+#define STARTOFFSET 0x0200
+#define RAMTEST 1
+#define CPUENABLED 1
 
 enum control_pins {
   RESETPIN = 3,  // (out) CPU reset, hold HIGH
   CLOCKPIN = 4,  // (out) CPU clock pusle
-  RWPIN = 5,     // (in/out) CPU wants to read or write (in), HIGH for read
-  CPUBEPIN = 6,  // (out) CPU Bus controll, HIGH for enabled
+  RWPIN = 5,     // (in/out) CPU wants to read or write, HIGH for read
+  CPUBEPIN = 6,  // (out) CPU bus, HIGH for enabled
 };
 
 enum address_pins {
@@ -159,7 +159,7 @@ unsigned int ram_test() {
     byte b = read_byte();
 
     if (b != (i % 256)) {
-      Serial.println("RAM test: failed");
+      Serial.println("RAM test: error");
       print_byte(b);
       print_byte(i % 256);
       print_short(i);

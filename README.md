@@ -3,10 +3,14 @@ Custom built 6502 based computer
 
 System interface components
 
-## Components
+## Hardware Components
 * WDC 6502 CPU
 * UM61256FK-15 32KB RAM 
 * Arduino Mega 2560
+
+## Software Components
+* 420-6502 AVR controller
+* 420-6502 OS 
 
 ## What it does
 * Checks every RAM address for read/write correctness

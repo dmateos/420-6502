@@ -222,6 +222,8 @@ void handle_read_request(unsigned short addr) {
       print_byte(highByte(STARTOFFSET));
       break;
     case STARTOFFSET:
+      // At this point the CPU is running, so we will switch the datastate
+      // back to input so we dont mess with the RAM on the bus.
       set_data_state(INPUT);
       Serial.println("CPU: running");
       break;

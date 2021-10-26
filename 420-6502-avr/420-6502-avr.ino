@@ -9,7 +9,9 @@
 enum control_pins {
   RESETPIN = 3,  // (out) CPU reset, hold HIGH
   CLOCKPIN = 4,  // (out) CPU clock pusle
-  RWPIN = 5,     // (in/out) CPU wants to read or write, HIGH for read
+  RWPIN = 5,     /* (in/out*) CPU wants to read or write, HIGH for read
+                    We can turn this into an OUTPUT to controll RAM r/w if the CPU
+                    bus is disabled. */
   CPUBEPIN = 6,  // (out) CPU bus, HIGH for enabled
 };
 
@@ -204,8 +206,6 @@ void init_cpu() {
 }
 
 void handle_read_request(unsigned short addr) {
-  print_short(addr);
-
   switch (addr) {
     // These are the addresses the CPU first requests data from to
     // determine where to start execution
@@ -228,6 +228,7 @@ void handle_read_request(unsigned short addr) {
       Serial.println("CPU: running");
       break;
     default:
+      print_short(addr);
       break;
   }
 }

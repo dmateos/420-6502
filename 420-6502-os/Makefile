@@ -1,0 +1,17 @@
+SOURCES=$(wildcard *.s)
+OBJECTS=$(SOURCES:.s=.o)
+
+ASM      = ca65
+ASMFLAGS = --cpu 65C02
+LD      = ld65
+LDFLAGS = --config memory.conf
+
+
+all: $(OBJECTS)
+	$(LD) $(LDFLAGS) $^
+
+%.o: %.s
+	$(ASM) $(ASMFLAGS) -o $@ $(@:.o=.s)
+
+clean:
+	$(RM) -- $(OBJECTS)

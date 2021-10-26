@@ -5,6 +5,7 @@
 #define STARTOFFSET 0x0200
 #define RAMTEST 1
 #define CPUENABLED 1
+#define NOPTEST 0
 
 enum control_pins {
   RESETPIN = 3,  // (out) CPU reset, hold HIGH
@@ -46,6 +47,12 @@ enum data_pins {
 };
 
 static unsigned int ram_errors = 0;
+
+const byte[] program = {
+   0x20, 0x06, 0x02, 0x4C, 0x00, 0x02, 
+   0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA,  
+   0xEA, 0xEA, 0xEA, 0xEA,  0x60,
+}
 
 void print_short(unsigned short d) {
   char msg[32];
@@ -117,17 +124,27 @@ void write_program_to_ram() {
   digitalWrite(RWPIN, HIGH);
   set_data_state(OUTPUT);
 
-  Serial.println("RAM: writing NOP program");
-  for (unsigned int i = 0; i < 0x8000; i++) {
-    write_address(i);
-    write_byte(0xEA);
+  if (NOPTEST) {
+    Serial.println("RAM: writing NOP program");
+    for (unsigned int i = 0; i < 0x8000; i++) {
+      write_address(i);
+      write_byte(0xEA);
 
-    // Pulse to signfiy a write to ram
-    // We might need to delay here if were too fast
-    digitalWrite(RWPIN, LOW);
-    digitalWrite(RWPIN, HIGH);
+      // Pulse to signfiy a write to ram
+      digitalWrite(RWPIN, LOW);
+      digitalWrite(RWPIN, HIGH);
+    }
+    Serial.println("RAM: done writing NOP program");
+  } else {
+    unsigned int program_size = sizeof(program) + STARTOFFSET;
+    for (unsigned int i = STARTOFFSET; i < program_size; i++) {
+      write_address(i);
+      write_byte(program[i - STARTOFFSET]);
+      // Pulse to signfiy a write to ram
+      digitalWrite(RWPIN, LOW);
+      digitalWrite(RWPIN, HIGH);
+    }
   }
-  Serial.println("RAM: done writing NOP program");
 }
 
 unsigned int ram_test() {
@@ -147,7 +164,6 @@ unsigned int ram_test() {
     write_byte(i % 256);
 
     // Pulse to signfiy a write to ram
-    // We might need to delay here if were too fast
     digitalWrite(RWPIN, LOW);
     digitalWrite(RWPIN, HIGH);
   }

@@ -1,6 +1,5 @@
 .segment "os"
 
 .PROC Main
-JMP $FFFF
-halt: JMP halt 
+halt: JMP halt
 .ENDPROC

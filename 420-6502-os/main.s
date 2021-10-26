@@ -1,5 +1,20 @@
 .segment "kernel"
 
 .PROC Main
-halt: JMP halt
+loop: JSR NopTest
+			JMP loop
+.ENDPROC
+
+.PROC NopTest
+			NOP
+			NOP
+			NOP
+			NOP
+			NOP
+			NOP
+			NOP
+			NOP
+			NOP
+			NOP
+			RTS
 .ENDPROC

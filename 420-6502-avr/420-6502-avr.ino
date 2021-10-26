@@ -243,9 +243,17 @@ void handle_read_request(unsigned short addr) {
       Serial.println("CPU: running");
       break;
     default:
+      Serial.println("CPU read request:");
       print_short(addr);
+      print_byte(read_byte());
       break;
   }
+}
+
+void handle_write_request(unsigned short addr) {
+  Serial.println("CPU write request:");
+  print_short(addr);
+  print_byte(read_byte());
 }
 
 void setup() {
@@ -287,10 +295,12 @@ void loop() {
   }
 
   clock_cycle();
+  unsigned short addr_data = read_address();
 
   // High is a read request from the CPU
   if (digitalRead(RWPIN) == HIGH) {
-    unsigned short addr_data = read_address();
     handle_read_request(addr_data);
+  } else {
+    handle_write_request(addr_data);
   }
 }

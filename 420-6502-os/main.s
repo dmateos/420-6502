@@ -1,7 +1,7 @@
 .segment "kernel"
 
 .PROC Main
-loop: JSR NopTest
+loop:	JSR NopTest
 			JMP loop
 .ENDPROC
 

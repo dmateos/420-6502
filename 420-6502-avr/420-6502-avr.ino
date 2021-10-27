@@ -138,6 +138,7 @@ void write_program_to_ram() {
     for (unsigned int i = 0; i < sizeof(program); i++) {
       write_address(i + STARTOFFSET);
       write_byte(program[i]);
+
       // Pulse to signfiy a write to ram
       digitalWrite(RWPIN, LOW);
       digitalWrite(RWPIN, HIGH);

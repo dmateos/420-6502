@@ -1,20 +1,14 @@
 .segment "kernel"
 
 .PROC Main
-loop:	JSR NopTest
-	JMP loop
+loop:   JSR Test
+        JMP loop
 .ENDPROC
 
-.PROC NopTest
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	RTS
+.PROC Test
+        LDX #$FF        ;How many times do we want to loop?
+loop:   NOP
+        DEX				;Dec counter
+        BNE loop	    ;Loop until counter is 0
+        RTS
 .ENDPROC

@@ -143,7 +143,7 @@ void write_program_to_ram() {
       digitalWrite(RWPIN, LOW);
       digitalWrite(RWPIN, HIGH);
 
-      print_short(i);
+      print_short(i + STARTOFFSET);
       print_byte(program[i]);
     }
   }

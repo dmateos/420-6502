@@ -133,17 +133,20 @@ void write_program_to_ram() {
       digitalWrite(RWPIN, LOW);
       digitalWrite(RWPIN, HIGH);
     }
-    Serial.println("RAM: done writing NOP program");
   } else {
-    unsigned int program_size = sizeof(program) + STARTOFFSET;
-    for (unsigned int i = STARTOFFSET; i < program_size; i++) {
-      write_address(i);
-      write_byte(program[i - STARTOFFSET]);
+    Serial.println("RAM: writing program");
+    for (unsigned int i = 0; i < sizeof(program); i++) {
+      write_address(i + STARTOFFSET);
+      write_byte(program[i]);
       // Pulse to signfiy a write to ram
       digitalWrite(RWPIN, LOW);
       digitalWrite(RWPIN, HIGH);
+
+      print_short(i);
+      print_byte(program[i]);
     }
   }
+  Serial.println("RAM: done writing program");
 }
 
 unsigned int ram_test() {
@@ -241,6 +244,8 @@ void handle_read_request(unsigned short addr) {
       // back to input so we dont mess with the RAM on the bus.
       set_data_state(INPUT);
       Serial.println("CPU: running");
+      print_short(addr);
+      print_byte(read_byte());
       break;
     default:
       Serial.println("CPU read request:");

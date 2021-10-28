@@ -123,6 +123,11 @@ int write_ram(unsigned short address, byte b) {
   return 0;
 }
 
+byte read_ram(unsigned short address) {
+  write_address(i);
+  return read_byte();
+}
+
 void write_program_to_ram() {
   // Make sure these are in a known state
   pinMode(RWPIN, OUTPUT);
@@ -169,8 +174,7 @@ unsigned int ram_test() {
   digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
   set_data_state(INPUT);
   for (unsigned int i = 0; i < 0x8000; i++) {
-    write_address(i);
-    byte b = read_byte();
+    byte b = read_ram(i);
 
     if (b != (i % 256)) {
       Serial.println("RAM test: error");

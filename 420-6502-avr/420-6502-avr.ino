@@ -124,7 +124,7 @@ int write_ram(unsigned short address, byte b) {
 }
 
 byte read_ram(unsigned short address) {
-  write_address(i);
+  write_address(address);
   return read_byte();
 }
 

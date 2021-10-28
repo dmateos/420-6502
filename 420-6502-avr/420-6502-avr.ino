@@ -113,6 +113,16 @@ int set_address_state(int state) {
   return 0;
 }
 
+int write_ram(unsigned short address, byte b) {
+  write_address(address);
+  write_byte(b);
+
+  // Pulse to signfiy a write to ram
+  digitalWrite(RWPIN, LOW);
+  digitalWrite(RWPIN, HIGH);
+  return 0;
+}
+
 void write_program_to_ram() {
   // Make sure these are in a known state
   pinMode(RWPIN, OUTPUT);
@@ -124,22 +134,12 @@ void write_program_to_ram() {
   if (NOPTEST) {
     Serial.println("RAM: writing NOP program");
     for (unsigned int i = 0; i < 0x8000; i++) {
-      write_address(i);
-      write_byte(0xEA);
-
-      // Pulse to signfiy a write to ram
-      digitalWrite(RWPIN, LOW);
-      digitalWrite(RWPIN, HIGH);
+      write_ram(i, 0xEA);
     }
   } else {
     Serial.println("RAM: writing program");
     for (unsigned int i = 0; i < sizeof(program); i++) {
-      write_address(i + STARTOFFSET);
-      write_byte(program[i]);
-
-      // Pulse to signfiy a write to ram
-      digitalWrite(RWPIN, LOW);
-      digitalWrite(RWPIN, HIGH);
+      write_ram(i + STARTOFFSET, program[i]);
 
       print_short(i + STARTOFFSET);
       print_byte(program[i]);
@@ -161,12 +161,7 @@ unsigned int ram_test() {
   Serial.println("RAM test: writing values 0x0:0x7FFF");
   // Write a value to each memory address
   for (unsigned int i = 0; i < 0x8000; i++) {
-    write_address(i);
-    write_byte(i % 256);
-
-    // Pulse to signfiy a write to ram
-    digitalWrite(RWPIN, LOW);
-    digitalWrite(RWPIN, HIGH);
+    write_ram(i, i % 256);
   }
 
   Serial.println("RAM test: reading values 0x0:0x7FFF");

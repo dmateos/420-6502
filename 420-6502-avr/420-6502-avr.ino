@@ -3,9 +3,9 @@
 #define CLOCKSPEED 100
 #define SERIALBAUD 115200
 #define STARTOFFSET 0x0200
-#define RAMTEST 1
 #define CPUENABLED 1
-#define NOPTEST 0
+#define RAMTEST 1  // Run a complete RAM test before starting the CPU
+#define NOPTEST 0  // Fill ram with NOPS instead of real program
 
 enum control_pins {
   RESETPIN = 3,  // (out) CPU reset, hold HIGH
@@ -48,8 +48,8 @@ enum data_pins {
 
 static unsigned int ram_errors = 0;
 
-const byte program[] = {0x20, 0x06, 0x02, 0x4c, 0x00, 0x02, 0xa2,
-                        0xff, 0xea, 0xca, 0xd0, 0xfc, 0x60};
+const byte program[] = {0x20, 0x06, 0x02, 0x4c, 0x00, 0x02, 0xa2, 0x10, 0xa2,
+                        0x69, 0x8e, 0x04, 0x20, 0xca, 0xd0, 0xf8, 0x60};
 
 void print_short(unsigned short d) {
   char msg[32];
@@ -246,8 +246,14 @@ void handle_read_request(unsigned short addr) {
       print_short(addr);
       print_byte(read_byte());
       break;
+    case 0xF420:
+      Serial.println("CPU: read from magic register!!!");
+      print_short(addr);
+      print_byte(read_byte());
+      break;
     default:
-      Serial.println("CPU read request:");
+      break;
+      Serial.println("CPU: read request");
       print_short(addr);
       print_byte(read_byte());
       break;
@@ -255,9 +261,19 @@ void handle_read_request(unsigned short addr) {
 }
 
 void handle_write_request(unsigned short addr) {
-  Serial.println("CPU write request:");
-  print_short(addr);
-  print_byte(read_byte());
+  switch (addr) {
+    case 0xF420:
+      Serial.println("CPU: write to magic register!!!");
+      print_short(addr);
+      print_byte(read_byte());
+      break;
+    default:
+      break;
+      Serial.println("CPU: write request");
+      print_short(addr);
+      print_byte(read_byte());
+      break;
+  }
 }
 
 void setup() {

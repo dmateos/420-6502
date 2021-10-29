@@ -13,7 +13,7 @@ Custom built 6502 based computer + system interface controller
 * 420-6502 AVR controller (Controller system)
   * Power on self test (write/read all RAM addresses)
   * Inject Kernel or NOP test program into RAM 
-  * Sets the CPU reset vectors (0x2000)
+  * Sets the CPU reset vectors (0x0200)
   * Starts the CPU
   * Provides a clock for the CPU
   * Provides some crude bus management via the 6502 BE pin

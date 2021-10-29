@@ -40,7 +40,12 @@ Custom built 6502 based computer + system interface controller
 | 0xFFFC:0xFFFD | Reset Vectors |
 | 0xF420        | Magic debug register |
 
-
+## TODO
+* Flesh out OS (mateOS?) 
+* Some sort of graphical output
+  * VIA GPIO?
+  * AVR Special registers + Display driver?
+  * OLED or 120x20 LCD?
 ## Pics
 ![Board pic](/pic.png)
 

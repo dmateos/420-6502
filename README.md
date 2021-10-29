@@ -13,13 +13,14 @@ Custom built 6502 based computer + system interface controller
 
 ## Software Components
 * 420-6502 AVR controller (Controller system)
-  * Power on self test (Write/Read all RAM addresses)
+  * Power on self test (write/read all RAM addresses)
   * Inject Kernel or NOP test program into RAM 
   * Sets the CPU reset vectors
   * Starts the CPU
   * Provides a clock for the CPU
+  * Intercept/monitor CPU address and data lines
   * Provides special high memory "registers" and "features"
-  * Provides a serial debugging interface to get output over USB
+  * Provides a serial debugging interface to PC over AVR USB
 * 420-6502 OS 
   * Basic Kernel
   * Tests the CPU stack is working 

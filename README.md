@@ -1,8 +1,6 @@
 # 420-6502
 Custom built 6502 based computer + system interface controller
 
-![Board pic](/pic.png)
-
 ## Hardware Components
 * W65C02S 8-bit Microprocessor
 * UM61256FK-15 32KB RAM 
@@ -35,3 +33,8 @@ Custom built 6502 based computer + system interface controller
 | 0x2000:0x7FFF | Kernel/Application code |
 | 0xFFFC:0xFFFD | Reset Vectors |
 | 0xF420        | Magic debug register |
+
+
+## Pics
+![Board pic](/pic.png)
+

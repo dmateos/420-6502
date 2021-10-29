@@ -37,10 +37,10 @@ Custom built 6502 based computer + system interface controller
 ### High, AVR Simulated RAM/Registers (0x8000:0xFFFF)
 | Range  | Purpose |
 | ------------- | ------------- |
-| 0xFFFC:0xFFFD | Reset Vectors |
-| 0xFFFA:0xFFFB | NM Interrupt service routine (not implemented) |
-| 0xFFFE:0xFFFD | Interrupt service routine (not implemented) |
 | 0xF420:0xF420 | Magic debug register |
+| 0xFFFA:0xFFFB | NM Interrupt service routine (not implemented) |
+| 0xFFFC:0xFFFD | Reset Vectors |
+| 0xFFFE:0xFFFD | Interrupt service routine (not implemented) |
 
 ## TODO
 * Problems with CPU clock timing and read/write IO to high mem?

@@ -39,7 +39,7 @@ Custom built 6502 based computer + system interface controller
 | ------------- | ------------- |
 | 0xFFFC:0xFFFD | Reset Vectors |
 | 0xFFFA:0xFFFB | NM Interrupt service routine (not implemented) |
-| 0xFFFE:0xFFFD | Interupt service routine (not implemented0 |
+| 0xFFFE:0xFFFD | Interrupt service routine (not implemented) |
 | 0xF420:0xF420 | Magic debug register |
 
 ## TODO

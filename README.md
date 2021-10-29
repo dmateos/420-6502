@@ -26,3 +26,12 @@ Custom built 6502 based computer + system interface controller
   * Tests the CPU stack is working 
   * Tests basic logic and RAM reading/writting is working
   * Writes to special high mem registers which get propogated over the USB serial debugging interface
+
+## Memory Layout
+| Range  | Purpose |
+| ------------- | ------------- |
+| 0x0000:0x00FF | Zero Page     |
+| 0x2000:0x7FFF | Stack         |
+| 0x2000:0x7FFF | Kernel/Application code |
+| 0xFFFC:0xFFFD | Reset Vectors |
+| 0xF420        | Magic debug register |

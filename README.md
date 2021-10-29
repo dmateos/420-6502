@@ -1,6 +1,8 @@
 # 420-6502
 Custom built 6502 based computer + system interface controller
 
+![Board pic](/pic.png)
+
 ## Hardware Components
 * W65C02S 8-bit Microprocessor
 * UM61256FK-15 32KB RAM 

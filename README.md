@@ -52,6 +52,10 @@ Custom built 6502 based computer + system interface controller
   * Possibly send kernel over AVR USB?
 * Run faster than 20hz
 * Flesh out OS (mateOS?) 
+  * IRQ Support 
+* Cool registers?
+  * CPU defined clock rate/scaling?
+  * CPU auto reset
 
 ## Pics
 ![Board pic](/pic.png)

@@ -28,19 +28,19 @@ Custom built 6502 based computer + system interface controller
 
 ## Memory Layout
 ### Low, Physical 32kb RAM (0x0000:0x7FFF)
-| Range  | Purpose |
-| ------------- | ------------- |
-| 0x0000:0x00FF | Zero Page     |
-| 0x0100:0x01FF | Stack         |
-| 0x0200:0x7FFF | Kernel/Application code |
+| Start | End  | Purpose |
+| ------| ------- | ------------- |
+| 0x0000 | 0x00FF | Zero Page     |
+| 0x010  | 0x01FF | Stack         |
+| 0x0200 | 0x7FFF | Kernel/Application code |
 
 ### High, AVR Simulated RAM/Registers (0x8000:0xFFFF)
-| Range  | Purpose |
-| ------------- | ------------- |
-| 0xF420:0xF420 | Magic debug register |
-| 0xFFFA:0xFFFB | NM Interrupt service routine (not implemented) |
-| 0xFFFC:0xFFFD | Reset Vectors (set to 0x0200) |
-| 0xFFFE:0xFFFF | Interrupt service routine (not implemented) |
+| Start |  End  | Purpose |
+| ------|------- | ------------- |
+| 0xF420 | - | Magic debug register |
+| 0xFFFA | 0xFFFB | NM Interrupt service routine (not implemented) |
+| 0xFFFC | 0xFFFD | Reset Vectors (set to 0x0200) |
+| 0xFFFE | 0xFFFF | Interrupt service routine (not implemented) |
 
 ## TODO
 * Problems with CPU clock timing and read/write IO to high mem?

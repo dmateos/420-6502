@@ -31,7 +31,7 @@ Custom built 6502 based computer + system interface controller
 | Start | End  | Purpose |
 | ------| ------- | ------------- |
 | 0x0000 | 0x00FF | Zero Page     |
-| 0x010  | 0x01FF | Stack         |
+| 0x0100 | 0x01FF | Stack         |
 | 0x0200 | 0x7FFF | Kernel/Application code |
 
 ### High, AVR Simulated RAM/Registers (0x8000:0xFFFF)

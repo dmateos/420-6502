@@ -48,6 +48,8 @@ Custom built 6502 based computer + system interface controller
   * OLED or 120x20 LCD?
 * Problems with CPU clock timing and read/write IO to high mem?
 * Run faster than 20hz
+* Automate hexdump -> c array of kernel
+  * Possibly send kernel over AVR USB?
 
 ## Pics
 ![Board pic](/pic.png)

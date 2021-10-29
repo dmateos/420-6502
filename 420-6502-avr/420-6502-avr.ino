@@ -251,10 +251,9 @@ void handle_read_request(unsigned short addr) {
       print_byte(read_byte());
       break;
     default:
-      break;
-      Serial.println("CPU: read request");
-      print_short(addr);
-      print_byte(read_byte());
+      // Serial.println("CPU: read request");
+      // print_short(addr);
+      // print_byte(read_byte());
       break;
   }
 }
@@ -267,10 +266,9 @@ void handle_write_request(unsigned short addr) {
       print_byte(read_byte());
       break;
     default:
-      break;
-      Serial.println("CPU: write request");
-      print_short(addr);
-      print_byte(read_byte());
+      // Serial.println("CPU: write request");
+      // print_short(addr);
+      // print_byte(read_byte());
       break;
   }
 }

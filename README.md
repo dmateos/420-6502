@@ -27,29 +27,29 @@ Custom built 6502 based computer + system interface controller
   * Writes to special high mem registers which get propogated over the USB serial debugging interface
 
 ## Memory Layout
-### Low
+### Low (0x0000:0x7FFF)
 | Range  | Purpose |
 | ------------- | ------------- |
 | 0x0000:0x00FF | Zero Page     |
 | 0x0100:0x1FFF | Stack         |
 | 0x2000:0x7FFF | Kernel/Application code |
 
-### High
+### High (0x8000:0xFFFF)
 | Range  | Purpose |
 | ------------- | ------------- |
 | 0xFFFC:0xFFFD | Reset Vectors |
 | 0xF420        | Magic debug register |
 
 ## TODO
-* Flesh out OS (mateOS?) 
+* Problems with CPU clock timing and read/write IO to high mem?
 * Some sort of graphical output
   * VIA GPIO?
   * AVR Special registers + Display driver?
   * OLED or 120x20 LCD?
-* Problems with CPU clock timing and read/write IO to high mem?
-* Run faster than 20hz
 * Automate hexdump -> c array of kernel
   * Possibly send kernel over AVR USB?
+* Run faster than 20hz
+* Flesh out OS (mateOS?) 
 
 ## Pics
 ![Board pic](/pic.png)

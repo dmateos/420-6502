@@ -16,6 +16,7 @@ Custom built 6502 based computer + system interface controller
   * Sets the CPU reset vectors (0x2000)
   * Starts the CPU
   * Provides a clock for the CPU
+  * Provides some crude bus management via the 6502 BE pin
   * Intercept/monitor CPU address and data lines
   * Provides special high memory "registers" and "features"
   * Provides a serial debugging interface to PC over AVR USB

@@ -38,7 +38,9 @@ Custom built 6502 based computer + system interface controller
 | Range  | Purpose |
 | ------------- | ------------- |
 | 0xFFFC:0xFFFD | Reset Vectors |
-| 0xF420        | Magic debug register |
+| 0xFFFA:0xFFFB | NM Interrupt service routine (not implemented) |
+| 0xFFFE:0xFFFD | Interupt service routine (not implemented0 |
+| 0xF420:0xF420 | Magic debug register |
 
 ## TODO
 * Problems with CPU clock timing and read/write IO to high mem?

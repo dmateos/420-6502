@@ -31,8 +31,8 @@ Custom built 6502 based computer + system interface controller
 | Range  | Purpose |
 | ------------- | ------------- |
 | 0x0000:0x00FF | Zero Page     |
-| 0x0100:0x1FFF | Stack         |
-| 0x2000:0x7FFF | Kernel/Application code |
+| 0x0100:0x01FF | Stack         |
+| 0x0200:0x7FFF | Kernel/Application code |
 
 ### High (0x8000:0xFFFF)
 | Range  | Purpose |

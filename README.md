@@ -27,14 +27,14 @@ Custom built 6502 based computer + system interface controller
   * Writes to special high mem registers which get propogated over the USB serial debugging interface
 
 ## Memory Layout
-### Low (0x0000:0x7FFF)
+### Low, Physical 32kb RAM (0x0000:0x7FFF)
 | Range  | Purpose |
 | ------------- | ------------- |
 | 0x0000:0x00FF | Zero Page     |
 | 0x0100:0x01FF | Stack         |
 | 0x0200:0x7FFF | Kernel/Application code |
 
-### High (0x8000:0xFFFF)
+### High, AVR Simulated RAM/Registers (0x8000:0xFFFF)
 | Range  | Purpose |
 | ------------- | ------------- |
 | 0xFFFC:0xFFFD | Reset Vectors |

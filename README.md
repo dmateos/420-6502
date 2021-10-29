@@ -9,18 +9,16 @@ Custom built 6502 based computer + system interface controller
 * Shitloads of wires and LEDS
 
 ## Software Components
-* 420-6502 AVR controller (BIOS)
+* 420-6502 AVR controller (Controller system)
+  * RAM Test on POST 
+  * Inject Kernel or NOP test program into RAM 
+  * Sets the CPU reset vectors
+  * Starts the CPU
+  * Provides a clock for the CPU
+  * Provides special high memory "registers" and "features"
+  * Provides a serial debugging interface to get output over USB
 * 420-6502 OS 
-
-## What it does
-* Checks every RAM address for read/write correctness
-* Injects a program into ram and controls the CPU start vectors
-* Starts the CPU 
-* Provides the CPU clock 
-* Intercepts requests for high memory above the ram (0x7FFF)
-* Provides a serial debugging interface in/out of the AVR
-
-## What it might do 
-* Provide a set of graphics/io registers
-* Provide a ACPI like interface via RAM/Address mappings
-* Dynamic clock rates?
+  * Basic Kernel
+  * Tests the CPU stack is working 
+  * Tests basic logic and RAM reading/writting is working
+  * Writes to special high mem registers which get propogated over the USB serial debugging interface

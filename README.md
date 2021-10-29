@@ -9,6 +9,7 @@ Custom built 6502 based computer + system interface controller
 * Arduino Mega 2560 AVR 
 * Breadboard
 * Shitloads of wires and LEDS
+* Resistance (in the form of resistors)
 
 ## Software Components
 * 420-6502 AVR controller (Controller system)

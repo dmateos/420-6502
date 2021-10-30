@@ -63,6 +63,26 @@ void print_byte(byte b) {
   Serial.print(msg);
 }
 
+int set_data_state(int state) {
+  if (state != OUTPUT && state != INPUT) {
+    return 1;
+  }
+  for (int i = 0; i < 8; i++) {
+    pinMode(DATAPIN_0 + i, state);
+  }
+  return 0;
+}
+
+int set_address_state(int state) {
+  if (state != OUTPUT && state != INPUT) {
+    return 1;
+  }
+  for (int i = 0; i < 16; i++) {
+    pinMode(ADDRESSPIN_0 + i, state);
+  }
+  return 0;
+}
+
 void write_address(unsigned short address) {
   for (int i = 0; i < 16; i++) {
     digitalWrite(ADDRESSPIN_0 + i, (address >> i) & 1);
@@ -91,26 +111,6 @@ byte read_byte() {
     data = (data << 1) | d;
   }
   return data;
-}
-
-int set_data_state(int state) {
-  if (state != OUTPUT && state != INPUT) {
-    return 1;
-  }
-  for (int i = 0; i < 8; i++) {
-    pinMode(DATAPIN_0 + i, state);
-  }
-  return 0;
-}
-
-int set_address_state(int state) {
-  if (state != OUTPUT && state != INPUT) {
-    return 1;
-  }
-  for (int i = 0; i < 16; i++) {
-    pinMode(ADDRESSPIN_0 + i, state);
-  }
-  return 0;
 }
 
 int write_ram(unsigned short address, byte b) {

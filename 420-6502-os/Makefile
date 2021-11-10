@@ -9,7 +9,7 @@ LDFLAGS = --config memory.conf
 
 all: $(OBJECTS)
 	$(LD) $(LDFLAGS) $^
-	python3 bin2c.py --file kernel.bin > kernel.out
+	python3 bin2c.py --file kernel.bin > kernel-bin.c
 
 %.o: %.s
 	$(ASM) $(ASMFLAGS) -o $@ $(@:.o=.s)

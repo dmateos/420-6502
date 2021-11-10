@@ -46,24 +46,24 @@ enum data_pins {
   DATAPIN_7,
 };
 
-static unsigned int ram_errors = 0;
+static uint32_t ram_errors = 0;
 
 const byte program[] = {0x20, 0x06, 0x02, 0x4c, 0x00, 0x02, 0xa2, 0x10, 0xa0,
                         0x69, 0x8c, 0x20, 0xf4, 0xca, 0xd0, 0xf8, 0x60};
 
-void print_short(unsigned short d) {
+void print_short(uint16_t d) {
   char msg[32];
   snprintf(msg, 32, "%#06x (%hu)\r\n", d, d);
   Serial.print(msg);
 }
 
-void print_byte(byte b) {
+void print_byte(uint8_t b) {
   char msg[32];
   snprintf(msg, 32, "%#04x (%hhu)\r\n", b, b);
   Serial.print(msg);
 }
 
-int set_data_state(int state) {
+int set_data_state(uint32_t state) {
   if (state != OUTPUT && state != INPUT) {
     return 1;
   }
@@ -73,7 +73,7 @@ int set_data_state(int state) {
   return 0;
 }
 
-int set_address_state(int state) {
+int set_address_state(uint32_t state) {
   if (state != OUTPUT && state != INPUT) {
     return 1;
   }
@@ -83,14 +83,14 @@ int set_address_state(int state) {
   return 0;
 }
 
-void write_address(unsigned short address) {
+void write_address(uint16_t address) {
   for (int i = 0; i < 16; i++) {
     digitalWrite(ADDRESSPIN_0 + i, (address >> i) & 1);
   }
 }
 
-unsigned short read_address() {
-  unsigned short data = 0;
+uint16_t read_address() {
+  uint16_t data = 0;
   for (int i = 0; i < 16; i++) {
     byte d = digitalRead(ADDRESSPIN_15 - i);
     data = (data << 1) | d;
@@ -98,22 +98,22 @@ unsigned short read_address() {
   return data;
 }
 
-void write_byte(byte data) {
+void write_byte(uint8_t data) {
   for (int i = 0; i < 8; i++) {
     digitalWrite(DATAPIN_0 + i, (data >> i) & 1);
   }
 }
 
-byte read_byte() {
-  byte data = 0;
+uint8_t read_byte() {
+  uint8_t data = 0;
   for (int i = 0; i < 8; i++) {
-    byte d = digitalRead(DATAPIN_7 - i);
+    uint8_t d = digitalRead(DATAPIN_7 - i);
     data = (data << 1) | d;
   }
   return data;
 }
 
-int write_ram(unsigned short address, byte b) {
+int write_ram(uint16_t address, uint8_t b) {
   write_address(address);
   write_byte(b);
 
@@ -123,7 +123,7 @@ int write_ram(unsigned short address, byte b) {
   return 0;
 }
 
-byte read_ram(unsigned short address) {
+uint8_t read_ram(uint16_t address) {
   write_address(address);
   return read_byte();
 }
@@ -138,12 +138,12 @@ void write_program_to_ram() {
 
   if (NOPTEST) {
     Serial.println("RAM: writing NOP program");
-    for (unsigned int i = 0; i < 0x8000; i++) {
+    for (uint32_t i = 0; i < 0x8000; i++) {
       write_ram(i, 0xEA);
     }
   } else {
     Serial.println("RAM: writing program");
-    for (unsigned int i = 0; i < sizeof(program); i++) {
+    for (uint32_t i = 0; i < sizeof(program); i++) {
       write_ram(i + STARTOFFSET, program[i]);
 
       print_short(i + STARTOFFSET);
@@ -154,7 +154,7 @@ void write_program_to_ram() {
 }
 
 unsigned int ram_test() {
-  unsigned int error = 0;
+  uint32_t error = 0;
 
   // Make sure these are in a known state
   pinMode(RWPIN, OUTPUT);
@@ -165,7 +165,7 @@ unsigned int ram_test() {
 
   Serial.println("RAM test: writing values 0x0:0x7FFF");
   // Write a value to each memory address
-  for (unsigned int i = 0; i < 0x8000; i++) {
+  for (uint32_t i = 0; i < 0x8000; i++) {
     write_ram(i, i % 256);
   }
 
@@ -173,7 +173,7 @@ unsigned int ram_test() {
   // Read back each value from each address and verify
   digitalWrite(RWPIN, HIGH);  // high to tell the ram we want to read
   set_data_state(INPUT);
-  for (unsigned int i = 0; i < 0x8000; i++) {
+  for (uint32_t i = 0; i < 0x8000; i++) {
     byte b = read_ram(i);
 
     if (b != (i % 256)) {
@@ -221,7 +221,7 @@ void init_cpu() {
   Serial.println("CPU: reset");
 }
 
-void handle_read_request(unsigned short addr) {
+void handle_read_request(uint16_t addr) {
   switch (addr) {
     // These are the addresses the CPU first requests data from to
     // determine where to start execution
@@ -258,7 +258,7 @@ void handle_read_request(unsigned short addr) {
   }
 }
 
-void handle_write_request(unsigned short addr) {
+void handle_write_request(uint16_t addr) {
   switch (addr) {
     case 0xF420:
       Serial.println("CPU: write to magic register!!!");
@@ -312,7 +312,7 @@ void loop() {
   }
 
   clock_cycle();
-  unsigned short addr_data = read_address();
+  uint16_t addr_data = read_address();
 
   // High is a read request from the CPU
   if (digitalRead(RWPIN) == HIGH) {

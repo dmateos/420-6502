@@ -3,15 +3,10 @@ import sys
 
 parser = optparse.OptionParser()
 parser.add_option("-f", "--file", dest="filename")
-parser.add_option("-o", "--out", dest="outname")
 options, args = parser.parse_args()
 
 if not options.filename:
     print("specify filename")
-    sys.exit(1)
-
-if not options.outname:
-    print("specify outname")
     sys.exit(1)
 
 with open(options.filename, mode="rb") as f:

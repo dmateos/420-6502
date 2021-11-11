@@ -48,7 +48,8 @@ enum data_pins {
 
 static uint32_t ram_errors = 0;
 
-extern uint8_t *program;
+extern const uint8_t program[];
+extern const uint32_t program_size;
 
 void print_short(uint16_t d) {
   char msg[32];
@@ -142,7 +143,7 @@ void write_program_to_ram() {
     }
   } else {
     Serial.println("RAM: writing program");
-    for (uint32_t i = 0; i < sizeof(program); i++) {
+    for (uint32_t i = 0; i < program_size; i++) {
       write_ram(i + STARTOFFSET, program[i]);
 
       print_short(i + STARTOFFSET);

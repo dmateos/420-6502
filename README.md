@@ -48,7 +48,7 @@ Custom built 6502 based computer + system interface controller
   * VIA GPIO?
   * AVR Special registers + Display driver?
   * OLED or 120x20 LCD?
-* Automate hexdump -> c array of kernel
+* ~~Automate hexdump -> c array of kernel~~
   * Possibly send kernel over AVR USB?
 * Run faster than 20hz
 * Flesh out OS (mateOS?) 

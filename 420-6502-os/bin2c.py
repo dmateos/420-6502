@@ -15,7 +15,7 @@ try:
         for byte in f.read():
             innerstr += f"{hex(byte)},"
 
-    print(f"const uint8_t kernel_program[] = {{{innerstr}}};")
+    print(f"const uint8_t program[] = {{{innerstr}}};")
     sys.exit(0)
 except FileNotFoundError:
     print("file not found")

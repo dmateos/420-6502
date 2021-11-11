@@ -9,10 +9,14 @@ if not options.filename:
     print("specify filename")
     sys.exit(1)
 
-innerstr = ""
-with open(options.filename, mode="rb") as f:
-    for byte in f.read():
-        innerstr += f"{hex(byte)},"
+try:
+    innerstr = ""
+    with open(options.filename, mode="rb") as f:
+        for byte in f.read():
+            innerstr += f"{hex(byte)},"
 
-print(f"const uint8_t kernel_program[] = {{{innerstr}}};")
-sys.exit(0)
+    print(f"const uint8_t kernel_program[] = {{{innerstr}}};")
+    sys.exit(0)
+except FileNotFoundError:
+    print("file not found")
+    sys.exit(1)

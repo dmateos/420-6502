@@ -46,13 +46,13 @@ enum data_pins {
   DATAPIN_7,
 };
 
-static uint32_t ram_errors = 0;
-
 // Program is generated with bin2c.py util which turns 420-6502-os
 // binary into a C array of hex values to inject into the 6502's RAM
 // This should be in kernel-bin.ino
 extern const uint8_t program[];
 extern const uint32_t program_size;
+
+static uint32_t ram_errors = 0;
 
 void print_short(uint16_t d) {
   char msg[32];

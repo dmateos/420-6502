@@ -252,11 +252,6 @@ void handle_read_request(uint16_t addr) {
       print_short(addr);
       print_byte(read_byte());
       break;
-    case 0xF420:
-      Serial.println("CPU: read from magic register!!!");
-      print_short(addr);
-      print_byte(read_byte());
-      break;
     default:
       // Serial.println("CPU: read request");
       // print_short(addr);
@@ -275,7 +270,11 @@ void handle_write_request(uint16_t addr) {
       print_short(addr);
       print_byte(b);
       if (GRAPHICS) {
-        write_display_char(b);
+        if (b == 255) {
+          clear_display();
+        } else {
+          write_display_char(b);
+        }
       }
       break;
     default:
@@ -315,7 +314,6 @@ void setup() {
 
   if (GRAPHICS && ram_errors == 0) {
     setup_display();
-    test_display();
   }
 
   if (CPUENABLED && ram_errors == 0) {

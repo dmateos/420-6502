@@ -4,7 +4,7 @@
 #define SERIALBAUD 115200
 #define STARTOFFSET 0x0200
 #define CPUENABLED 1
-#define RAMPULSEDELAY 20  // Speed of the ram (15ns, but give a bit of room?)
+#define RAMPULSEDELAY 50  // Speed of the ram (15ns, but give a bit of room?)
 #define RAMTEST \
   1  // Run a RAMPULSEDELAYcomplete RAM test before starting the CPU
 #define NOPTEST 0  // Fill ram with NOPS instead of real program

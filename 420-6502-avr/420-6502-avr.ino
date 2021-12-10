@@ -5,9 +5,8 @@
 #define STARTOFFSET 0x0200
 #define CPUENABLED 1
 #define RAMPULSEDELAY 50  // Speed of the ram (15ns, but give a bit of room?)
-#define RAMTEST \
-  1  // Run a RAMPULSEDELAYcomplete RAM test before starting the CPU
-#define NOPTEST 0  // Fill ram with NOPS instead of real program
+#define RAMTEST 1         // Run a complete RAM test before starting the CPU
+#define NOPTEST 0         // Fill ram with NOPS instead of real program
 
 enum control_pins {
   RESETPIN = 3,  // (out) CPU reset, hold HIGH

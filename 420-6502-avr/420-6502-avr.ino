@@ -4,7 +4,7 @@
 #define SERIALBAUD 115200
 #define STARTOFFSET 0x0200
 #define CPUENABLED 1
-#define RAMPULSEDELAY 100  // Ram write (15ns in theory. but this seems min?)
+#define RAMPULSEDELAY 200  // Ram write (15ns in theory. but this seems min?)
 #define RAMTEST 1          // Run a complete RAM test before starting the CPU
 #define NOPTEST 0          // Fill ram with NOPS instead of real program
 
@@ -130,7 +130,9 @@ int write_ram(uint16_t address, uint8_t b) {
 
 uint8_t read_ram(uint16_t address) {
   write_address(address);
+  delayMicroseconds(RAMPULSEDELAY);
   return read_byte();
+  d
 }
 
 void write_program_to_ram() {
@@ -300,6 +302,9 @@ void setup() {
     continue;
   }
   Serial.println("420-6502-001");
+
+  setup_display();
+  test_display();
 
   if (RAMTEST) {
     ram_errors = ram_test();

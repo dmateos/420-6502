@@ -4,7 +4,9 @@
 #define SERIALBAUD 115200
 #define STARTOFFSET 0x0200
 #define CPUENABLED 1
-#define RAMTEST 1  // Run a complete RAM test before starting the CPU
+#define RAMPULSEDELAY 20  // Speed of the ram (15ns, but give a bit of room?)
+#define RAMTEST \
+  1  // Run a RAMPULSEDELAYcomplete RAM test before starting the CPU
 #define NOPTEST 0  // Fill ram with NOPS instead of real program
 
 enum control_pins {
@@ -122,7 +124,7 @@ int write_ram(uint16_t address, uint8_t b) {
 
   // Pulse to signfiy a write to ram
   digitalWrite(RWPIN, LOW);
-  delay(1);
+  delayMicroseconds(RAMPULSEDELAY);
   digitalWrite(RWPIN, HIGH);
   return 0;
 }

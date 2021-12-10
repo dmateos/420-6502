@@ -59,5 +59,6 @@ Custom built 6502 based computer + system interface controller
   * CPU auto reset
 
 ## Pics
+![Board pic](/pic2.png)
 ![Board pic](/pic.png)
 

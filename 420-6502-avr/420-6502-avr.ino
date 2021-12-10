@@ -122,6 +122,7 @@ int write_ram(uint16_t address, uint8_t b) {
 
   // Pulse to signfiy a write to ram
   digitalWrite(RWPIN, LOW);
+  delay(1);
   digitalWrite(RWPIN, HIGH);
   return 0;
 }

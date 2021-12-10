@@ -23,6 +23,6 @@ void setup_display() {
       ;
   }
 
-  oled.setTextSize(1);
   clear_display();
+  oled.setTextSize(1);
 }

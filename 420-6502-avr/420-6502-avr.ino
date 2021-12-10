@@ -201,10 +201,10 @@ unsigned int ram_test() {
 
 void clock_cycle() {
   digitalWrite(LED_BUILTIN, HIGH);
-  digitalWrite(CLOCKPIN, HIGH);
+  digitalWrite(CLOCKPIN, LOW);
   delay(CLOCKSPEED / 2);
   digitalWrite(LED_BUILTIN, LOW);
-  digitalWrite(CLOCKPIN, LOW);
+  digitalWrite(CLOCKPIN, HIGH);
   delay(CLOCKSPEED / 2);
 }
 

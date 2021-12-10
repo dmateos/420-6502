@@ -20,9 +20,12 @@ void setup_display() {
 void test_display() {
   oled.setCursor(0, 0);
   oled.println("420-6502 TEST");
-  oled.println("BLAZE IT");
   oled.display();
 
-  delay(5000);
-  oled.clearDisplay();
+  delay(1000);
+}
+
+void write_display_char(char c) {
+  oled.write(c);
+  oled.display();
 }

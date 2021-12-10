@@ -265,11 +265,15 @@ void handle_read_request(uint16_t addr) {
 }
 
 void handle_write_request(uint16_t addr) {
+  uint8_t b;
+
   switch (addr) {
     case 0xF420:
       Serial.println("CPU: write to magic register!!!");
+      b = read_byte();
       print_short(addr);
-      print_byte(read_byte());
+      print_byte(b);
+      write_display_char(b);
       break;
     default:
       // Serial.println("CPU: write request");

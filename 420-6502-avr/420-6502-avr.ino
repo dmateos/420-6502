@@ -4,9 +4,10 @@
 #define SERIALBAUD 115200
 #define STARTOFFSET 0x0200
 #define CPUENABLED 1
-#define RAMPULSEDELAY 200  // Ram write (15ns in theory. but this seems min?)
-#define RAMTEST 1          // Run a complete RAM test before starting the CPU
+#define RAMPULSEDELAY 500  // Ram write (15ns in theory. but this seems min?)
+#define RAMTEST 0          // Run a complete RAM test before starting the CPU
 #define NOPTEST 0          // Fill ram with NOPS instead of real program
+#define GRAPHICS 1
 
 enum control_pins {
   RESETPIN = 3,  // (out) CPU reset, hold HIGH
@@ -273,7 +274,9 @@ void handle_write_request(uint16_t addr) {
       b = read_byte();
       print_short(addr);
       print_byte(b);
-      write_display_char(b);
+      if (GRAPHICS) {
+        write_display_char(b);
+      }
       break;
     default:
       // Serial.println("CPU: write request");
@@ -310,8 +313,10 @@ void setup() {
     ram_errors = ram_test();
   }
 
-  setup_display();
-  test_display();
+  if (GRAPHICS && ram_errors == 0) {
+    setup_display();
+    test_display();
+  }
 
   if (CPUENABLED && ram_errors == 0) {
     write_program_to_ram();

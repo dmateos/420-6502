@@ -132,7 +132,6 @@ uint8_t read_ram(uint16_t address) {
   write_address(address);
   delayMicroseconds(RAMPULSEDELAY);
   return read_byte();
-  d
 }
 
 void write_program_to_ram() {

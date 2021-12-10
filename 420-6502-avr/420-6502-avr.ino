@@ -7,7 +7,7 @@
 #define RAMPULSEDELAY 500  // Ram write (15ns in theory. but this seems min?)
 #define RAMTEST 0          // Run a complete RAM test before starting the CPU
 #define NOPTEST 0          // Fill ram with NOPS instead of real program
-#define GRAPHICS 1
+#define GRAPHICS 1         // Do we have an OLED connected (see gpu.ino)
 
 enum control_pins {
   RESETPIN = 3,  // (out) CPU reset, hold HIGH

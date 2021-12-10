@@ -8,6 +8,7 @@ Custom built 6502 based computer + system interface controller
 * Breadboard
 * Shitloads of wires and LEDS
 * Resistance (in the form of resistors)
+* 128x64 i2c compadible OLED. 
 
 ## Software Components
 * 420-6502 AVR controller (Controller system)

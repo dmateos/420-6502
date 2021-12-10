@@ -302,12 +302,12 @@ void setup() {
   }
   Serial.println("420-6502-001");
 
-  setup_display();
-  test_display();
-
   if (RAMTEST) {
     ram_errors = ram_test();
   }
+
+  setup_display();
+  test_display();
 
   if (CPUENABLED && ram_errors == 0) {
     write_program_to_ram();

@@ -20,11 +20,12 @@ Custom built 6502 based computer + system interface controller
   * Intercept/monitor CPU address and data lines
   * Provides special high memory "registers" and "features"
   * Provides a serial debugging interface to PC over AVR USB
+  * Provides a basic graphics interface  
 * 420-6502 OS 
   * Basic Kernel
   * Tests the CPU stack is working 
   * Tests basic logic and RAM reading/writting is working
-  * Writes to special high mem registers which get propogated over the USB serial debugging interface
+  * Prints Hello World via the AVR "Graphics Driver"
 
 ## Memory Layout
 ### Low, Physical 32kb RAM (0x0000:0x7FFF)
@@ -37,17 +38,16 @@ Custom built 6502 based computer + system interface controller
 ### High, AVR Simulated RAM/Registers (0x8000:0xFFFF)
 | Start |  End  | Purpose |
 | ------|------- | ------------- |
-| 0xF420 | - | Magic debug register |
+| 0xF420 | - | GFX Register, ASCII char or 0xFF to clear screen |
 | 0xFFFA | 0xFFFB | NM Interrupt service routine (not implemented) |
 | 0xFFFC | 0xFFFD | Reset Vectors (set to 0x0200) |
 | 0xFFFE | 0xFFFF | Interrupt service routine (not implemented) |
 
 ## TODO
-* Problems with CPU clock timing and read/write IO to high mem?
-* Some sort of graphical output
-  * VIA GPIO?
-  * AVR Special registers + Display driver?
-  * OLED or 120x20 LCD?
+* ~~Problems with CPU clock timing and read/write IO to high mem?~~
+* ~~Some sort of graphical output
+  * ~~AVR Special registers + Display driver~~
+  * ~~OLED or 120x20 LCD?~~
 * ~~Automate hexdump -> c array of kernel~~
   * Possibly send kernel over AVR USB?
 * Run faster than 20hz

@@ -11,4 +11,17 @@ void setup_display() {
     while (true)
       ;
   }
+
+  oled.clearDisplay();
+  oled.setTextSize(1);
+  oled.setTextColor(WHITE);  // Prob doesnt matter with our disp.
+}
+
+void test_display() {
+  oled.setCursor(0, 0);
+  oled.println("420-6502 test_display()");
+  oled.display();
+
+  delay(5000);
+  oled.clearDisplay();
 }

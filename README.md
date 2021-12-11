@@ -4,6 +4,7 @@ Custom built 6502 based computer + system interface controller
 ## Hardware Components
 * W65C02S 8-bit Microprocessor
 * UM61256FK-15 32KB RAM 
+  * Chip enable is tied to addr line 15 of CPU
 * Arduino Mega 2560 AVR 
 * Breadboard
 * Shitloads of wires and LEDS

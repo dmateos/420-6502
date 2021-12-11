@@ -15,6 +15,7 @@ void write_display_char(char c) {
 
 void clear_display() {
   oled.clearDisplay();
+  write_display_char(' ');
   if (screen_phase == 0) {
     screen_phase = 1;
     oled.setCursor(0, 0);

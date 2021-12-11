@@ -1,6 +1,7 @@
 #include <SoftwareSerial.h>
 
-#define CLOCKSPEED 100
+#define CLOCKSPEED 100  // Might be commented out in clock_cycle()
+#define SERIALDEBUG 0   // Do we wanna dump to AVR serial
 #define SERIALBAUD 115200
 #define STARTOFFSET 0x0200
 #define CPUENABLED 1
@@ -57,15 +58,19 @@ extern const uint32_t program_size;
 static uint32_t ram_errors = 0;
 
 void print_short(uint16_t d) {
-  char msg[32];
-  snprintf(msg, 32, "%#06x (%hu)\r\n", d, d);
-  Serial.print(msg);
+  if (SERIALDEBUG) {
+    char msg[32];
+    snprintf(msg, 32, "%#06x (%hu)\r\n", d, d);
+    Serial.print(msg);
+  }
 }
 
 void print_byte(uint8_t b) {
-  char msg[32];
-  snprintf(msg, 32, "%#04x (%hhu)\r\n", b, b);
-  Serial.print(msg);
+  if (SERIALDEBUG) {
+    char msg[32];
+    snprintf(msg, 32, "%#04x (%hhu)\r\n", b, b);
+    Serial.print(msg);
+  }
 }
 
 int set_data_state(uint32_t state) {
@@ -205,10 +210,10 @@ unsigned int ram_test() {
 void clock_cycle() {
   digitalWrite(LED_BUILTIN, HIGH);
   digitalWrite(CLOCKPIN, LOW);
-  delay(CLOCKSPEED / 2);
+  // delay(CLOCKSPEED / 2);
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(CLOCKPIN, HIGH);
-  delay(CLOCKSPEED / 2);
+  // delay(CLOCKSPEED / 2);
 }
 
 void init_cpu() {
@@ -265,7 +270,6 @@ void handle_write_request(uint16_t addr) {
 
   switch (addr) {
     case 0xF420:
-      Serial.println("CPU: write to magic register!!!");
       b = read_byte();
       print_short(addr);
       print_byte(b);

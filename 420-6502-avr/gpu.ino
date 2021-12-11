@@ -4,7 +4,8 @@
 
 #define SCREEN_WIDTH 128  // OLED display width,  in pixels
 #define SCREEN_HEIGHT 64  // OLED display height, in pixels
-Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+static Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 static uint8_t screen_phase = 0;
 

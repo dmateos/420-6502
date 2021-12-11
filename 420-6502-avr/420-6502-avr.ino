@@ -165,6 +165,8 @@ void write_program_to_ram() {
   Serial.println("RAM: done writing program");
 }
 
+// This seems to fail on some RAMS
+// Bad ram or bad test?
 unsigned int ram_test() {
   uint32_t error = 0;
 

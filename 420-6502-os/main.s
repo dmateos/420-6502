@@ -13,9 +13,6 @@ loop:       JSR PrintHeader
             JMP loop
 .endproc
 
-HeaderMsg:  .byte "mateOS v0.1\n"
-HeaderMsgLen = 12
-
 .proc PrintHeader
             LDX #0              
 loop:       CPX #HeaderMsgLen       ;Loop untill we reach end of msg
@@ -27,9 +24,6 @@ loop:       CPX #HeaderMsgLen       ;Loop untill we reach end of msg
 done:
             RTS
 .endproc
-
-HelloMsg:   .byte "Hello World!\n"
-HelloMsgLen = 13
 
 .proc PrintHelloWorldTest
             LDX #0              
@@ -62,3 +56,9 @@ loop:       STY $F420               ;Print number
             STY $F420
             RTS
 .endproc
+
+HeaderMsg:  .byte "mateOS v0.1\n"
+HeaderMsgLen = 12
+
+HelloMsg:   .byte "Hello World!\n"
+HelloMsgLen = 13

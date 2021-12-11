@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
 
-#define CLOCKSPEED 2000  // 0 to disable any limits
-#define SERIALDEBUG 0    // Do we wanna dump to AVR serial
+#define CLOCKSPEED 0   // 0 to disable any limits
+#define SERIALDEBUG 0  // Do we wanna dump to AVR serial
 #define SERIALBAUD 115200
 #define STARTOFFSET 0x0200  // CPU execution vector (has to match program)
 #define CPUENABLED 1

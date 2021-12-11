@@ -8,6 +8,16 @@ Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 static uint8_t screen_phase = 0;
 
+static void oled_offset() {
+  if (screen_phase == 0) {
+    oled.setCursor(0, 0);
+    screen_phase = 1;
+  } else {
+    oled.setCursor(5, 0);
+    screen_phase = 0;
+  }
+}
+
 void write_display_char(char c) {
   oled.write(c);
   oled.display();
@@ -15,16 +25,9 @@ void write_display_char(char c) {
 
 void clear_display() {
   oled.clearDisplay();
-  write_display_char(' ');
-  if (screen_phase == 0) {
-    screen_phase = 1;
-    oled.setCursor(0, 0);
-    oled.println("420-6502 BIOS 0.1");
-  } else {
-    screen_phase = 0;
-    oled.setCursor(5, 0);
-    oled.println("Blaze it!");
-  }
+  oled_offset();
+  oled.println("420-6502 BIOS 0.1");
+  oled.display();
 }
 
 void setup_display() {

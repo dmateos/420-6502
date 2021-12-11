@@ -9,10 +9,7 @@ loop:       JSR PrintHeader
             JSR PrintCountTest
             JSR PrintCountTest
             JSR PrintCountTest
-
-            LDY #$FF                ;Clear display
-            STY $F420
-
+            JSR ClearDisplay
             JMP loop
 .endproc
 
@@ -57,5 +54,11 @@ loop:       STY $F420               ;Print number
 
             LDY #$0A                ;\n
             STY $F420               ;Print newline
+            RTS
+.endproc
+
+.proc ClearDisplay
+            LDY #$FF
+            STY $F420
             RTS
 .endproc

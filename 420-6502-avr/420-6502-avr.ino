@@ -1,9 +1,9 @@
 #include <SoftwareSerial.h>
 
-#define CLOCKSPEED 100  // Might be commented out in clock_cycle()
-#define SERIALDEBUG 0   // Do we wanna dump to AVR serial
+#define CLOCKSPEED 2000  // 0 to disable any limits
+#define SERIALDEBUG 0    // Do we wanna dump to AVR serial
 #define SERIALBAUD 115200
-#define STARTOFFSET 0x0200
+#define STARTOFFSET 0x0200  // CPU execution vector (has to match program)
 #define CPUENABLED 1
 #define RAMPULSEDELAY 20  // Ram write (15ns in theory. but this seems min?)
 #define RAMTEST 0         // Run a complete RAM test before starting the CPU
@@ -210,10 +210,14 @@ unsigned int ram_test() {
 void clock_cycle() {
   digitalWrite(LED_BUILTIN, HIGH);
   digitalWrite(CLOCKPIN, LOW);
-  // delay(CLOCKSPEED / 2);
+  if (CLOCKSPEED) {
+    delay(CLOCKSPEED / 2);
+  }
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(CLOCKPIN, HIGH);
-  // delay(CLOCKSPEED / 2);
+  if (CLOCKSPEED) {
+    delay(CLOCKSPEED / 2);
+  }
 }
 
 void init_cpu() {

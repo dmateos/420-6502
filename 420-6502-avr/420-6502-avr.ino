@@ -341,6 +341,7 @@ void loop() {
   uint16_t addr_data = read_address();
 
   // High is a read request from the CPU
+  // TODO do we need to runt his if low addr?
   if (digitalRead(RWPIN) == HIGH) {
     handle_read_request(addr_data);
   } else {

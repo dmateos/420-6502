@@ -14,7 +14,7 @@ loop:       JSR PrintHeader
 .endproc
 
 .proc PrintHeader
-            LDX #0              
+            LDX #$0              
 loop:       CPX #HeaderMsgLen       ;Loop untill we reach end of msg
             BEQ done                ;
             LDY HeaderMsg,X         ;Load message offset ito Y
@@ -26,7 +26,7 @@ done:
 .endproc
 
 .proc PrintHelloWorldTest
-            LDX #0              
+            LDX #$0              
 loop:       CPX #HelloMsgLen        ;Loop untill we reach end of msg
             BEQ done                ;
             LDY HelloMsg,X          ;Load message offset ito Y

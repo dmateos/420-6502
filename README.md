@@ -50,11 +50,13 @@ Custom built 6502 based computer + system interface controller
 * ~~Some sort of graphical output
   * ~~AVR Special registers + Display driver~~
   * ~~OLED or 120x20 LCD?~~
+  * Pixel GFX mode (x,y,n)
 * ~~Automate hexdump -> c array of kernel~~
   * Possibly send kernel over AVR USB?
 * Run faster than 20hz
 * Flesh out OS (mateOS?) 
   * IRQ Support 
+  * String libs 
 * Cool registers?
   * CPU defined clock rate/scaling?
   * CPU auto reset

@@ -215,12 +215,12 @@ unsigned int ram_test() {
 void clock_cycle() {
   digitalWrite(LED_BUILTIN, HIGH);
   digitalWrite(CLOCKPIN, LOW);
-  if (CLOCKSPEED > 2) {
+  if (CLOCKSPEED > 10) {
     delay(CLOCKSPEED / 2);
   }
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(CLOCKPIN, HIGH);
-  if (CLOCKSPEED > 2) {
+  if (CLOCKSPEED > 10) {
     delay(CLOCKSPEED / 2);
   }
 }
@@ -341,7 +341,8 @@ void loop() {
     return;
   }
 
-  CLOCKSPEED = map(analogRead(POTPIN), 0, 1023, 0, 255);
+  //CLOCKSPEED = map(analogRead(POTPIN), 0, 1023, 0, 255);
+  CLOCKSPEED = analogRead(POTPIN);
 
   clock_cycle();
   uint16_t addr_data = read_address();

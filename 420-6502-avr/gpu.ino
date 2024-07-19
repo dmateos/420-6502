@@ -7,6 +7,8 @@
 
 static Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
+extern int CLOCKSPEED;
+
 static uint8_t screen_phase = 0;
 
 static void oled_offset() {
@@ -27,7 +29,8 @@ void write_display_char(char c) {
 void clear_display() {
   oled.clearDisplay();
   oled_offset();
-  oled.println("420-6502 BIOS 0.1");
+  oled.print("420 BIOS 0.1 ");
+  oled.println(CLOCKSPEED);
   oled.display();
 }
 

@@ -1,6 +1,5 @@
 #include <SoftwareSerial.h>
 
-#define CLOCKSPEED 0   // 0 to disable any limits
 #define SERIALDEBUG 0  // Do we wanna dump to AVR serial
 #define SERIALBAUD 115200
 #define STARTOFFSET 0x0200  // CPU execution vector (has to match program)
@@ -9,6 +8,10 @@
 #define RAMTEST 0         // Run a complete RAM test before starting the CPU
 #define NOPTEST 0         // Fill ram with NOPS instead of real program
 #define GRAPHICS 1        // Do we have an OLED connected (see gpu.ino)
+
+#define POTPIN A6
+
+int CLOCKSPEED = 0;
 
 enum control_pins {
   RESETPIN = 3,  // (out) CPU reset, hold HIGH
@@ -212,12 +215,12 @@ unsigned int ram_test() {
 void clock_cycle() {
   digitalWrite(LED_BUILTIN, HIGH);
   digitalWrite(CLOCKPIN, LOW);
-  if (CLOCKSPEED) {
+  if (CLOCKSPEED > 2) {
     delay(CLOCKSPEED / 2);
   }
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(CLOCKPIN, HIGH);
-  if (CLOCKSPEED) {
+  if (CLOCKSPEED > 2) {
     delay(CLOCKSPEED / 2);
   }
 }
@@ -302,6 +305,7 @@ void setup() {
   pinMode(CLOCKPIN, OUTPUT);
   pinMode(RWPIN, INPUT);
   pinMode(CPUBEPIN, OUTPUT);
+  pinMode(POTPIN, INPUT);
 
   set_address_state(INPUT);
   set_data_state(INPUT);
@@ -336,6 +340,8 @@ void loop() {
   if (!CPUENABLED || ram_errors > 0) {
     return;
   }
+
+  CLOCKSPEED = map(analogRead(POTPIN), 0, 1023, 0, 255);
 
   clock_cycle();
   uint16_t addr_data = read_address();
